@@ -38,8 +38,37 @@ export async function updateSession(request: NextRequest) {
   const pathname = request.nextUrl.pathname
 
   // Public routes that don't require auth
-  const publicPrefixes = ['/login', '/signup', '/about', '/courses', '/store'];
+  const publicPrefixes = ['/login', '/signup', '/about', '/courses', '/store', '/maintenance', '/contact'];
   const isPublicRoute = pathname === '/' || publicPrefixes.some(prefix => pathname.startsWith(prefix));
+
+  // Check Maintenance Mode from system_settings
+  const { data: sysSettings } = await supabase.from('site_settings').select('value').eq('key', 'system_settings').single();
+  const isMaintenanceMode = sysSettings?.value?.maintenance_mode === true;
+
+  // Let admins pass through maintenance mode
+  let isAdmin = false;
+  if (user) {
+    const { data: userData } = await supabase
+      .from('users')
+      .select('role')
+      .eq('id', user.id)
+      .single();
+    isAdmin = userData?.role === 'ADMIN';
+  }
+
+  // Redirect to maintenance if enabled and user is not admin
+  if (isMaintenanceMode && !isAdmin && pathname !== '/maintenance') {
+    const url = request.nextUrl.clone();
+    url.pathname = '/maintenance';
+    return NextResponse.redirect(url);
+  }
+
+  // Redirect back if maintenance mode is OFF and user tries to access /maintenance
+  if (!isMaintenanceMode && pathname === '/maintenance') {
+    const url = request.nextUrl.clone();
+    url.pathname = '/';
+    return NextResponse.redirect(url);
+  }
 
   if (!user && !isPublicRoute) {
     // no user, potentially respond by redirecting the user to the login page
@@ -51,13 +80,7 @@ export async function updateSession(request: NextRequest) {
   // If user is authenticated, we need to check their role/status from public.users
   // To avoid hitting DB on every request, we could rely on JWT claims, but for now we query DB.
   if (user && pathname.startsWith('/admin')) {
-    const { data: userData } = await supabase
-      .from('users')
-      .select('role, status')
-      .eq('id', user.id)
-      .single()
-
-    if (userData?.role !== 'ADMIN') {
+    if (!isAdmin) {
       const url = request.nextUrl.clone()
       url.pathname = '/dashboard' // redirect non-admins
       return NextResponse.redirect(url)

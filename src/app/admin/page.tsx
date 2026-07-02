@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { createClient } from "@/utils/supabase/client";
-import { getNextUpcomingSession } from "@/services/liveSessionService";
+import { getUpcomingSessions } from "@/services/liveSessionService";
 import { LiveSession } from "@/types";
 import { ResponsiveContainer, AreaChart, Area, XAxis, Tooltip } from 'recharts';
 
@@ -33,7 +33,7 @@ export default function AdminDashboardPage() {
   const [totalBooksSold, setTotalBooksSold] = useState(0);
   const [totalEnrollments, setTotalEnrollments] = useState(0);
   
-  const [nextSession, setNextSession] = useState<LiveSession | null>(null);
+  const [upcomingSessions, setUpcomingSessions] = useState<LiveSession[]>([]);
   const [isSessionLive, setIsSessionLive] = useState(false);
   
   const [chartData90, setChartData90] = useState<any[]>([
@@ -124,14 +124,14 @@ export default function AdminDashboardPage() {
           setChartData30(weeksData);
 
           // Fetch next live session
-          const upcomingSession = await getNextUpcomingSession();
-          if (upcomingSession) {
-            setNextSession(upcomingSession);
-            // Check if it's currently live (within 2 hours of start time)
-            const sessionTime = new Date(upcomingSession.session_date).getTime();
+          const sessions = await getUpcomingSessions(3);
+          if (sessions && sessions.length > 0) {
+            setUpcomingSessions(sessions);
+            // Check if the closest one is currently live (within 2 hours of start time)
+            const closestSessionTime = new Date(sessions[0].session_date).getTime();
             const nowTime = now.getTime();
             const twoHoursMs = 2 * 60 * 60 * 1000;
-            if (nowTime >= sessionTime && nowTime <= sessionTime + twoHoursMs) {
+            if (nowTime >= closestSessionTime && nowTime <= closestSessionTime + twoHoursMs) {
               setIsSessionLive(true);
             }
           }
@@ -447,29 +447,47 @@ export default function AdminDashboardPage() {
                 </div>
               </div>
               <div className="space-y-4">
-                <div className="p-4 rounded-xl border border-dashed border-white/10 flex flex-col items-center justify-center py-8 text-center">
-                  {nextSession ? (
-                    <>
-                      <span className={`material-symbols-outlined text-3xl mb-2 ${isSessionLive ? 'text-green-500 animate-pulse' : 'text-on-surface-variant opacity-30'}`}>
-                        {isSessionLive ? 'sensors' : 'event'}
-                      </span>
-                      <p className="text-on-surface-variant text-sm font-medium">الحصة القادمة: {nextSession.title}</p>
-                      <p className="text-[10px] text-primary mt-1 font-label-caps">
-                        الموعد: {new Date(nextSession.session_date).toLocaleString('ar-EG', { dateStyle: 'short', timeStyle: 'short' })}
-                      </p>
-                      {isSessionLive && (
-                        <a href={nextSession.zoom_link} target="_blank" rel="noreferrer" className="mt-4 px-4 py-2 bg-green-500/20 text-green-500 hover:bg-green-500 hover:text-white rounded-lg text-xs font-bold transition-colors">
-                          دخول البث
-                        </a>
-                      )}
-                    </>
-                  ) : (
-                    <>
-                      <span className="material-symbols-outlined text-3xl text-on-surface-variant mb-2 opacity-30">videocam_off</span>
-                      <p className="text-on-surface-variant text-sm font-medium">لا توجد حصص مجدولة</p>
-                    </>
-                  )}
-                </div>
+                {upcomingSessions.length > 0 ? (
+                  upcomingSessions.map((session, idx) => {
+                    const sessionTime = new Date(session.session_date).getTime();
+                    const nowTime = new Date().getTime();
+                    const twoHoursMs = 2 * 60 * 60 * 1000;
+                    const isThisSessionLive = nowTime >= sessionTime && nowTime <= sessionTime + twoHoursMs;
+
+                    return (
+                      <div key={session.id} className="flex items-center justify-between bg-surface-container-low p-4 rounded-xl border border-white/5">
+                        <div className="flex items-center gap-4">
+                          <div className={`w-14 h-14 rounded-xl border-2 overflow-hidden relative flex items-center justify-center ${isThisSessionLive ? 'border-green-500/50 bg-green-500/10 text-green-500' : 'border-primary/30 bg-surface-container-highest text-primary'}`}>
+                            <span className={`material-symbols-outlined text-2xl ${isThisSessionLive ? 'animate-pulse' : ''}`}>
+                              {isThisSessionLive ? 'sensors' : 'event'}
+                            </span>
+                          </div>
+                          <div>
+                            <div className="font-bold text-base text-on-surface">{session.title}</div>
+                            <div className="text-xs text-on-surface-variant mt-1" dir="ltr">
+                              {new Date(session.session_date).toLocaleString('ar-EG', { dateStyle: 'short', timeStyle: 'short' })}
+                            </div>
+                            {isThisSessionLive && (
+                              <a href={session.zoom_link} target="_blank" rel="noreferrer" className="inline-block mt-2 px-3 py-1 bg-green-500/20 text-green-500 hover:bg-green-500 hover:text-white rounded text-[10px] font-bold transition-colors">
+                                دخول البث المباشر
+                              </a>
+                            )}
+                          </div>
+                        </div>
+                        <div className="text-left">
+                          <Link href="/admin/live" className="inline-block p-2 bg-surface-container-highest hover:bg-primary/20 text-primary rounded-lg transition-colors">
+                            <span className="material-symbols-outlined text-sm">edit</span>
+                          </Link>
+                        </div>
+                      </div>
+                    );
+                  })
+                ) : (
+                  <div className="p-4 rounded-xl border border-dashed border-white/10 flex flex-col items-center justify-center py-8 text-center">
+                    <span className="material-symbols-outlined text-3xl text-on-surface-variant mb-2 opacity-30">videocam_off</span>
+                    <p className="text-on-surface-variant text-sm font-medium">لا توجد حصص مجدولة</p>
+                  </div>
+                )}
               </div>
               {/* Abstract graphic background */}
               <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-primary/5 rounded-full blur-3xl pointer-events-none"></div>

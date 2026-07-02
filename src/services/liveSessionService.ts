@@ -73,9 +73,9 @@ export async function getUserBookedSessions(userId: string): Promise<any[]> {
 }
 
 /**
- * Fetches the next upcoming live session (for admin or generic display).
+ * Fetches the upcoming live sessions (for admin or generic display).
  */
-export async function getNextUpcomingSession(): Promise<LiveSession | null> {
+export async function getUpcomingSessions(limit: number = 3): Promise<LiveSession[]> {
   const supabase = createClient();
   const now = new Date().toISOString();
   
@@ -84,14 +84,11 @@ export async function getNextUpcomingSession(): Promise<LiveSession | null> {
     .select('*')
     .gte('session_date', now)
     .order('session_date', { ascending: true })
-    .limit(1)
-    .single();
+    .limit(limit);
     
   if (error) {
-    if (error.code !== 'PGRST116') { // Ignore "No rows found" error
-      console.error("Error fetching next upcoming session:", error);
-    }
-    return null;
+    console.error("Error fetching upcoming sessions:", error);
+    return [];
   }
-  return data as LiveSession;
+  return data as LiveSession[];
 }

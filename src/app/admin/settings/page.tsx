@@ -19,6 +19,27 @@ export default function AdminSettingsPage() {
   const [mfaStatus, setMfaStatus] = useState<'disabled' | 'enrolling' | 'enabled'>('disabled');
   const [qrCodeData, setQrCodeData] = useState<any>(null);
   const [verificationCode, setVerificationCode] = useState('');
+  
+  // System settings state
+  const [systemSettings, setSystemSettings] = useState({
+    site_name: 'CORE Academy',
+    logo_url: '',
+    tab_title: '',
+    tab_favicon_url: '',
+    whatsapp: '',
+    telegram: '',
+    facebook: '',
+    youtube: '',
+    maintenance_mode: false,
+    // Maintenance page customization content
+    maintenance_title: 'صيانة وتحديث المنصة',
+    maintenance_description: 'نعمل حالياً على تحسين وتحديث منصة CORE لنقدم لكم تجربة تعليمية متميزة. سنعود للعمل مجدداً خلال وقت قصير جداً!',
+    maintenance_support_title: 'هل تحتاج إلى مساعدة؟',
+    maintenance_support_desc: 'إذا كان لديك أي استفسار عاجل بشأن الكورسات أو الحساب الخاص بك، يرجى التواصل مع الدعم الفني مباشرة.',
+  });
+  const [isUploadingLogo, setIsUploadingLogo] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState('');
+  
   const supabase = createClient();
 
   const checkMfaStatus = async () => {
@@ -78,22 +99,77 @@ export default function AdminSettingsPage() {
         setMethods(loadedMethods);
       }
 
+      // Fetch System Settings
+      const { data: sysData } = await supabase.from('site_settings').select('value').eq('key', 'system_settings').single();
+      if (sysData && sysData.value) {
+        setSystemSettings(prev => ({ ...prev, ...sysData.value }));
+      }
+
       // Fetch Pages
       const { data: pagesData } = await supabase.from('site_settings').select('key, value').in('key', ['page_contact', 'page_terms', 'page_privacy']);
+      
+      const defaultContact = `<h3>البريد الإلكتروني</h3>\n<p>support@core.com</p>\n\n<h3>رقم الهاتف</h3>\n<p>+20 101 234 5678</p>`;
+      const defaultTerms = `<h2>1. قبول الشروط</h2>\n<p>باستخدامك للمنصة، فإنك توافق على الالتزام بجميع الشروط والأحكام المذكورة هنا.</p>\n\n<h2>2. حقوق الملكية الفكرية</h2>\n<p>جميع المواد التعليمية والكورسات الموجودة على المنصة هي ملكية حصرية ولا يجوز نسخها أو إعادة توزيعها.</p>`;
+      const defaultPrivacy = `<h2>سياسة الخصوصية وحماية البيانات</h2>\n<p>نحن نلتزم بحماية خصوصية بياناتكم التعليمية والشخصية بالكامل ولن يتم مشاركتها مع أي طرف خارجي.</p>`;
+
       if (pagesData) {
         const contact = pagesData.find((p: any) => p.key === 'page_contact');
         const terms = pagesData.find((p: any) => p.key === 'page_terms');
         const privacy = pagesData.find((p: any) => p.key === 'page_privacy');
         
-        if (contact && contact.value?.content) setPageContact(contact.value.content);
-        if (terms && terms.value?.content) setPageTerms(terms.value.content);
-        if (privacy && privacy.value?.content) setPagePrivacy(privacy.value.content);
+        setPageContact(contact?.value?.content || defaultContact);
+        setPageTerms(terms?.value?.content || defaultTerms);
+        setPagePrivacy(privacy?.value?.content || defaultPrivacy);
+      } else {
+        setPageContact(defaultContact);
+        setPageTerms(defaultTerms);
+        setPagePrivacy(defaultPrivacy);
       }
     };
     fetchSettings();
     fetchAssistants();
     checkMfaStatus();
   }, []);
+
+  const saveSystemSettings = async () => {
+    setIsSaving(true);
+    const { data: existing } = await supabase.from('site_settings').select('id').eq('key', 'system_settings').single();
+    if (existing) {
+      await supabase.from('site_settings').update({ value: systemSettings }).eq('key', 'system_settings');
+    } else {
+      await supabase.from('site_settings').insert({ key: 'system_settings', value: systemSettings });
+    }
+    setIsSaving(false);
+    alert('تم حفظ إعدادات النظام بنجاح!');
+  };
+
+  const uploadLogoFile = async (file: File) => {
+    setIsUploadingLogo(true);
+    setUploadProgress('جاري الرفع...');
+    
+    const fileExt = file.name.split('.').pop();
+    const fileName = `logo_${Date.now()}.${fileExt}`;
+
+    // Try to ensure bucket exists
+    const { error: bucketError } = await supabase.storage.createBucket('media', { public: true });
+    // Ignore error if bucket already exists (error code 23505 or "already exists")
+    
+    const { data, error } = await supabase.storage
+      .from('media')
+      .upload(fileName, file, { upsert: true, contentType: file.type });
+    
+    if (error) {
+      setUploadProgress(`خطأ: ${error.message}`);
+      setIsUploadingLogo(false);
+      return;
+    }
+    
+    const { data: { publicUrl } } = supabase.storage.from('media').getPublicUrl(fileName);
+    setSystemSettings(prev => ({ ...prev, logo_url: publicUrl }));
+    setUploadProgress('تم الرفع بنجاح! ✅');
+    setIsUploadingLogo(false);
+    setTimeout(() => setUploadProgress(''), 3000);
+  };
 
   const saveProfile = async () => {
     setIsSaving(true);
@@ -518,14 +594,98 @@ export default function AdminSettingsPage() {
                   </h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                      <label className="block text-sm font-bold text-on-surface-variant mb-2">اسم المنصة</label>
-                      <input type="text" defaultValue="CORE Academy" className="w-full bg-surface-container-highest border border-white/10 rounded-lg px-4 py-3 focus:border-primary focus:outline-none text-on-surface" />
+                      <label className="block text-sm font-bold text-on-surface-variant mb-2">اسم المنصة (يظهر في الهيدر)</label>
+                      <input
+                        type="text"
+                        value={systemSettings.site_name}
+                        onChange={e => setSystemSettings(prev => ({ ...prev, site_name: e.target.value }))}
+                        className="w-full bg-surface-container-highest border border-white/10 rounded-lg px-4 py-3 focus:border-primary focus:outline-none text-on-surface"
+                        placeholder="CORE Academy"
+                      />
+                      <p className="text-[11px] text-on-surface-variant mt-1">هذا الاسم يظهر في الزاوية العلوية اليسرى للهيدر.</p>
                     </div>
                     <div>
-                      <label className="block text-sm font-bold text-on-surface-variant mb-2">اللوجو (شعار الموقع)</label>
-                      <div className="border border-white/10 rounded-lg p-2 flex items-center gap-4 bg-surface-container-highest h-12">
-                        <div className="bg-surface-container-low px-4 h-full flex items-center rounded text-xs font-bold border border-white/5 cursor-pointer hover:bg-white/5">اختر صورة</div>
-                        <span className="text-xs text-on-surface-variant">logo_main.png</span>
+                      <label className="block text-sm font-bold text-on-surface-variant mb-2">اللوجو (يستبدل الاسم في الهيدر)</label>
+
+                      {/* Compact input + upload button */}
+                      <div className="flex items-center gap-2">
+                        <input
+                          type="url"
+                          dir="ltr"
+                          value={systemSettings.logo_url}
+                          onChange={e => setSystemSettings(prev => ({ ...prev, logo_url: e.target.value }))}
+                          className="flex-1 bg-surface-container-highest border border-white/10 rounded-lg px-4 py-3 focus:border-primary focus:outline-none text-on-surface text-left text-sm min-w-0"
+                          placeholder="https://... أو ارفع من الجهاز"
+                        />
+                        <label className={`shrink-0 flex items-center gap-1.5 px-3 py-3 rounded-lg border border-white/10 text-sm font-bold cursor-pointer transition-all ${
+                          isUploadingLogo
+                            ? 'bg-primary/10 text-primary border-primary/30 cursor-wait'
+                            : 'bg-surface-container-highest text-on-surface hover:bg-primary/10 hover:text-primary hover:border-primary/30'
+                        }`}>
+                          <input
+                            type="file"
+                            accept="image/*,.gif"
+                            className="hidden"
+                            disabled={isUploadingLogo}
+                            onChange={e => {
+                              const file = e.target.files?.[0];
+                              if (file) uploadLogoFile(file);
+                            }}
+                          />
+                          {isUploadingLogo ? (
+                            <div className="w-4 h-4 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
+                          ) : (
+                            <span className="material-symbols-outlined text-base">upload</span>
+                          )}
+                          <span className="text-xs">{isUploadingLogo ? 'جاري الرفع...' : 'رفع'}</span>
+                        </label>
+                      </div>
+
+                      {uploadProgress && !isUploadingLogo && (
+                        <p className={`text-[11px] mt-1 ${uploadProgress.includes('✅') ? 'text-green-500' : 'text-error'}`}>{uploadProgress}</p>
+                      )}
+
+                      {/* Preview */}
+                      {systemSettings.logo_url && (
+                        <div className="mt-2 flex items-center gap-3">
+                          <img src={systemSettings.logo_url} alt="معاينة" className="h-8 max-w-[100px] object-contain rounded" />
+                          <span className="text-[11px] text-on-surface-variant">معاينة اللوجو في الهيدر</span>
+                          <button type="button" onClick={() => setSystemSettings(prev => ({ ...prev, logo_url: '' }))} className="text-[11px] text-error hover:underline mr-auto">حذف</button>
+                        </div>
+                      )}
+                    </div>
+
+                  </div>
+
+                  {/* Browser Tab Settings */}
+                  <div className="mt-4 p-4 bg-surface-container-high rounded-xl border border-white/5 space-y-4">
+                    <h4 className="font-bold text-sm text-on-surface-variant flex items-center gap-2">
+                      <span className="material-symbols-outlined text-base">tab</span>
+                      إعدادات تبويب المتصفح
+                    </h4>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-xs font-bold text-on-surface-variant mb-2">عنوان التبويب (Tab Title)</label>
+                        <input
+                          type="text"
+                          value={systemSettings.tab_title}
+                          onChange={e => setSystemSettings(prev => ({ ...prev, tab_title: e.target.value }))}
+                          className="w-full bg-surface-container-highest border border-white/10 rounded-lg px-4 py-2.5 focus:border-primary focus:outline-none text-on-surface text-sm"
+                          placeholder="CORE Academy — اسم التبويب"
+                        />
+                        <p className="text-[11px] text-on-surface-variant mt-1">اتركه فارغاً لاستخدام اسم المنصة.</p>
+                      </div>
+                      <div>
+                        <label className="block text-xs font-bold text-on-surface-variant mb-2">رابط الفافيكون (Tab Icon)</label>
+                        <input
+                          type="url"
+                          dir="ltr"
+                          value={systemSettings.tab_favicon_url}
+                          onChange={e => setSystemSettings(prev => ({ ...prev, tab_favicon_url: e.target.value }))}
+                          className="w-full bg-surface-container-highest border border-white/10 rounded-lg px-4 py-2.5 focus:border-primary focus:outline-none text-on-surface text-left text-sm"
+                          placeholder="https://example.com/favicon.ico"
+                        />
+                        <p className="text-[11px] text-on-surface-variant mt-1">صورة صغيرة تظهر بجانب عنوان التبويب.</p>
                       </div>
                     </div>
                   </div>
@@ -542,19 +702,39 @@ export default function AdminSettingsPage() {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                       <label className="block text-sm font-bold text-on-surface-variant mb-2 flex items-center gap-2"><span className="text-primary">#</span> رقم الدعم الفني (WhatsApp)</label>
-                      <input type="text" dir="ltr" defaultValue="+201012345678" className="w-full bg-surface-container-highest border border-white/10 rounded-lg px-4 py-3 focus:border-primary focus:outline-none text-on-surface text-left" />
+                      <input type="text" dir="ltr"
+                        value={systemSettings.whatsapp}
+                        onChange={e => setSystemSettings(prev => ({ ...prev, whatsapp: e.target.value }))}
+                        className="w-full bg-surface-container-highest border border-white/10 rounded-lg px-4 py-3 focus:border-primary focus:outline-none text-on-surface text-left"
+                        placeholder="+201012345678"
+                      />
                     </div>
                     <div>
                       <label className="block text-sm font-bold text-on-surface-variant mb-2 flex items-center gap-2"><span className="text-primary">#</span> قناة تيليجرام</label>
-                      <input type="url" dir="ltr" defaultValue="https://t.me/core_academy" className="w-full bg-surface-container-highest border border-white/10 rounded-lg px-4 py-3 focus:border-primary focus:outline-none text-on-surface text-left" />
+                      <input type="url" dir="ltr"
+                        value={systemSettings.telegram}
+                        onChange={e => setSystemSettings(prev => ({ ...prev, telegram: e.target.value }))}
+                        className="w-full bg-surface-container-highest border border-white/10 rounded-lg px-4 py-3 focus:border-primary focus:outline-none text-on-surface text-left"
+                        placeholder="https://t.me/..."
+                      />
                     </div>
                     <div>
                       <label className="block text-sm font-bold text-on-surface-variant mb-2 flex items-center gap-2"><span className="text-primary">#</span> صفحة فيسبوك</label>
-                      <input type="url" dir="ltr" placeholder="https://facebook.com/..." className="w-full bg-surface-container-highest border border-white/10 rounded-lg px-4 py-3 focus:border-primary focus:outline-none text-on-surface text-left" />
+                      <input type="url" dir="ltr"
+                        value={systemSettings.facebook}
+                        onChange={e => setSystemSettings(prev => ({ ...prev, facebook: e.target.value }))}
+                        className="w-full bg-surface-container-highest border border-white/10 rounded-lg px-4 py-3 focus:border-primary focus:outline-none text-on-surface text-left"
+                        placeholder="https://facebook.com/..."
+                      />
                     </div>
                     <div>
                       <label className="block text-sm font-bold text-on-surface-variant mb-2 flex items-center gap-2"><span className="text-primary">#</span> قناة يوتيوب</label>
-                      <input type="url" dir="ltr" placeholder="https://youtube.com/..." className="w-full bg-surface-container-highest border border-white/10 rounded-lg px-4 py-3 focus:border-primary focus:outline-none text-on-surface text-left" />
+                      <input type="url" dir="ltr"
+                        value={systemSettings.youtube}
+                        onChange={e => setSystemSettings(prev => ({ ...prev, youtube: e.target.value }))}
+                        className="w-full bg-surface-container-highest border border-white/10 rounded-lg px-4 py-3 focus:border-primary focus:outline-none text-on-surface text-left"
+                        placeholder="https://youtube.com/..."
+                      />
                     </div>
                   </div>
                 </div>
@@ -569,19 +749,79 @@ export default function AdminSettingsPage() {
                   </h3>
                   <div className="p-4 rounded-xl border border-error/30 bg-error/5 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                     <div>
-                      <h4 className="font-bold text-on-surface">إغلاق الموقع مؤقتاً</h4>
+                      <h4 className="font-bold text-on-surface">إغلاق الموقع مؤقتاً (وضع الصيانة)</h4>
                       <p className="text-sm text-on-surface-variant">لن يتمكن الطلاب من الدخول أو مشاهدة الكورسات، وستظهر لهم شاشة "صيانة وتحديث". أنت فقط (كأدمن) من يستطيع الدخول.</p>
                     </div>
                     <label className="relative inline-flex items-center cursor-pointer shrink-0">
-                      <input type="checkbox" className="sr-only peer" />
+                      <input type="checkbox" className="sr-only peer"
+                        checked={systemSettings.maintenance_mode}
+                        onChange={e => setSystemSettings(prev => ({ ...prev, maintenance_mode: e.target.checked }))}
+                      />
                       <div className="w-14 h-7 bg-surface-container-low peer-focus:outline-none rounded-full peer peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:right-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-error"></div>
                     </label>
                   </div>
+
+                  {systemSettings.maintenance_mode && (
+                    <div className="p-4 rounded-xl border border-white/10 bg-surface-container-low space-y-4 animate-in fade-in duration-300">
+                      <h4 className="font-bold text-sm text-on-surface flex items-center gap-1.5">
+                        <span className="material-symbols-outlined text-sm text-primary">edit_note</span>
+                        تخصيص شاشة الصيانة للطلاب
+                      </h4>
+                      <div className="space-y-3">
+                        <div>
+                          <label className="block text-xs font-bold text-on-surface-variant mb-1">عنوان الصفحة الرئيسي</label>
+                          <input
+                            type="text"
+                            value={systemSettings.maintenance_title}
+                            onChange={e => setSystemSettings(prev => ({ ...prev, maintenance_title: e.target.value }))}
+                            className="w-full bg-surface-container-highest border border-white/10 rounded-lg px-3 py-2 text-sm text-on-surface"
+                            placeholder="صيانة وتحديث المنصة"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-xs font-bold text-on-surface-variant mb-1">نص الوصف والرسالة</label>
+                          <textarea
+                            rows={3}
+                            value={systemSettings.maintenance_description}
+                            onChange={e => setSystemSettings(prev => ({ ...prev, maintenance_description: e.target.value }))}
+                            className="w-full bg-surface-container-highest border border-white/10 rounded-lg p-3 text-sm text-on-surface resize-none"
+                            placeholder="نعمل حالياً على تحسين وتحديث منصة..."
+                          />
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                          <div>
+                            <label className="block text-xs font-bold text-on-surface-variant mb-1">عنوان بطاقة الدعم الفني</label>
+                            <input
+                              type="text"
+                              value={systemSettings.maintenance_support_title}
+                              onChange={e => setSystemSettings(prev => ({ ...prev, maintenance_support_title: e.target.value }))}
+                              className="w-full bg-surface-container-highest border border-white/10 rounded-lg px-3 py-2 text-sm text-on-surface"
+                              placeholder="هل تحتاج إلى مساعدة؟"
+                            />
+                          </div>
+                          <div>
+                            <label className="block text-xs font-bold text-on-surface-variant mb-1">وصف بطاقة الدعم الفني</label>
+                            <input
+                              type="text"
+                              value={systemSettings.maintenance_support_desc}
+                              onChange={e => setSystemSettings(prev => ({ ...prev, maintenance_support_desc: e.target.value }))}
+                              className="w-full bg-surface-container-highest border border-white/10 rounded-lg px-3 py-2 text-sm text-on-surface"
+                              placeholder="إذا كان لديك أي استفسار عاجل بشأن..."
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 <div className="pt-4 flex justify-end">
-                  <button className="px-6 py-3 bg-primary text-on-primary rounded-lg font-bold hover:opacity-90 transition-all shadow-[0_0_15px_rgba(0,210,255,0.3)]">
-                    حفظ التغييرات
+                  <button
+                    onClick={saveSystemSettings}
+                    disabled={isSaving}
+                    className="px-6 py-3 bg-primary text-on-primary rounded-lg font-bold hover:opacity-90 transition-all shadow-[0_0_15px_rgba(0,210,255,0.3)] disabled:opacity-50"
+                  >
+                    {isSaving ? 'جاري الحفظ...' : 'حفظ التغييرات'}
                   </button>
                 </div>
 

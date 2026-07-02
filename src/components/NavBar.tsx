@@ -16,6 +16,9 @@ export default function NavBar() {
   const [isAdmin, setIsAdmin] = useState(false);
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
   const [isLoadingAuth, setIsLoadingAuth] = useState(true);
+  const [siteName, setSiteName] = useState('CORE');
+  const [logoUrl, setLogoUrl] = useState<string | null>(null);
+  const [transparentLogoUrl, setTransparentLogoUrl] = useState<string | null>(null);
 
   const isAdminRoute = pathname.startsWith("/admin");
 
@@ -144,8 +147,89 @@ export default function NavBar() {
       handleSession(session);
     });
 
+    // Fetch site settings (name + logo)
+    const applySettings = (v: any) => {
+      if (v.site_name) setSiteName(v.site_name);
+      const rawLogo = v.logo_url || null;
+      setLogoUrl(rawLogo);
+      setTransparentLogoUrl(rawLogo); // Fallback initially
+      
+      // Process logo dynamically to remove background (Chroma keying)
+      if (rawLogo) {
+        const img = new Image();
+        img.crossOrigin = "anonymous";
+        img.src = rawLogo;
+        img.onload = () => {
+          const canvas = document.createElement("canvas");
+          canvas.width = img.width;
+          canvas.height = img.height;
+          const ctx = canvas.getContext("2d");
+          if (!ctx) return;
+          ctx.drawImage(img, 0, 0);
+          const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+          const data = imgData.data;
+
+          // Background color from top-left pixel
+          const rBg = data[0];
+          const gBg = data[1];
+          const bBg = data[2];
+          
+          // Tolerance to remove similar dark background colors
+          const tolerance = 45; 
+
+          for (let i = 0; i < data.length; i += 4) {
+            const r = data[i];
+            const g = data[i + 1];
+            const b = data[i + 2];
+
+            const diff = Math.sqrt(
+              Math.pow(r - rBg, 2) +
+              Math.pow(g - gBg, 2) +
+              Math.pow(b - bBg, 2)
+            );
+
+            if (diff < tolerance) {
+              data[i + 3] = 0; // Set alpha to 0 (make transparent)
+            }
+          }
+
+          ctx.putImageData(imgData, 0, 0);
+          setTransparentLogoUrl(canvas.toDataURL());
+        };
+        img.onerror = () => {
+          setTransparentLogoUrl(rawLogo);
+        };
+      } else {
+        setTransparentLogoUrl(null);
+      }
+
+      const tabTitle = v.tab_title || v.site_name;
+      if (tabTitle) document.title = tabTitle;
+      const faviconUrl = v.tab_favicon_url || v.logo_url;
+      if (faviconUrl) {
+        const existing = document.querySelector("link[rel='icon']") as HTMLLinkElement | null;
+        if (existing) {
+          existing.href = faviconUrl;
+        } else {
+          const link = document.createElement('link');
+          link.rel = 'icon';
+          link.href = faviconUrl;
+          document.head.appendChild(link);
+        }
+      }
+    };
+
+    supabase.from('site_settings').select('value').eq('key', 'system_settings').single().then(({ data }) => {
+      if (data?.value) applySettings(data.value);
+    });
+
+    // Listen for live updates from settings page (no reload needed)
+    const onSettingsUpdate = (e: Event) => applySettings((e as CustomEvent).detail);
+    window.addEventListener('site-settings-updated', onSettingsUpdate);
+
     return () => {
       subscription.unsubscribe();
+      window.removeEventListener('site-settings-updated', onSettingsUpdate);
     };
   }, []);
 
@@ -166,7 +250,17 @@ export default function NavBar() {
         {/* Brand Logo */}
         <div className="flex items-center gap-3">
           <Link href="/" className="font-display-lg text-display-lg-mobile md:text-display-lg font-bold text-primary">
-            CORE
+            {transparentLogoUrl ? (
+              <div className="h-14 w-[180px] overflow-hidden flex items-center justify-center rounded">
+                <img
+                  src={transparentLogoUrl}
+                  alt={siteName}
+                  className="w-full h-full object-cover scale-[1.6] transform transition-transform"
+                />
+              </div>
+            ) : (
+              siteName
+            )}
           </Link>
         </div>
 

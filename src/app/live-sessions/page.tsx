@@ -10,30 +10,77 @@ type Tab = 'PRIVATE' | 'REVIEW';
 export default function LiveSessionsPage() {
   const [activeTab, setActiveTab] = useState<Tab>('PRIVATE');
   const [sessions, setSessions] = useState<LiveSession[]>([]);
+  const [userBookedSessionIds, setUserBookedSessionIds] = useState<string[]>([]);
+  const [sessionBookingCounts, setSessionBookingCounts] = useState<Record<string, number>>({});
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState<any>(null);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      const supabase = createClient();
-      const { data: { user: authUser } } = await supabase.auth.getUser();
-      
-      if (authUser) {
-        const { data: userData } = await supabase.from('users').select('*').eq('id', authUser.id).single();
-        setUser(userData);
-      }
+  const supabase = createClient();
 
-      const data = await getPublishedLiveSessions();
-      setSessions(data);
-      setLoading(false);
-    };
+  const fetchData = async () => {
+    setLoading(true);
+    const { data: { user: authUser } } = await supabase.auth.getUser();
+    
+    let userData = null;
+    if (authUser) {
+      const { data } = await supabase.from('users').select('*').eq('id', authUser.id).single();
+      userData = data;
+      setUser(userData);
+    }
+
+    const data = await getPublishedLiveSessions();
+    setSessions(data);
+
+    if (data.length > 0) {
+      // 1. Fetch booking counts for these sessions
+      const { data: counts } = await supabase
+        .from('session_bookings')
+        .select('session_id')
+        .in('session_id', data.map(s => s.id));
+      
+      const countMap: Record<string, number> = {};
+      if (counts) {
+        counts.forEach((b: any) => {
+          countMap[b.session_id] = (countMap[b.session_id] || 0) + 1;
+        });
+      }
+      setSessionBookingCounts(countMap);
+
+      // 2. Check which sessions current logged in user has booked
+      if (authUser) {
+        const { data: userBookings } = await supabase
+          .from('session_bookings')
+          .select('session_id')
+          .eq('user_id', authUser.id);
+        
+        if (userBookings) {
+          setUserBookedSessionIds(userBookings.map((b: any) => b.session_id));
+        }
+      }
+    }
+
+    setLoading(false);
+  };
+
+  useEffect(() => {
     fetchData();
   }, []);
 
   const handleBooking = async (session: LiveSession) => {
     if (!user) {
       alert("يرجى تسجيل الدخول أولاً لحجز الحصة.");
+      return;
+    }
+
+    // Safety checks before booking
+    const currentBookedCount = sessionBookingCounts[session.id] || 0;
+    if (currentBookedCount >= session.max_seats) {
+      alert("عذراً، هذه الحصة اكتملت مقاعدها بالفعل.");
+      return;
+    }
+
+    if (userBookedSessionIds.includes(session.id)) {
+      alert("لقد قمت بحجز هذه الحصة مسبقاً.");
       return;
     }
     
@@ -43,8 +90,6 @@ export default function LiveSessionsPage() {
     }
 
     if (confirm(`تأكيد خصم ${session.price} جنيه لحجز مقعد في حصة: ${session.title}؟`)) {
-      const supabase = createClient();
-      
       // 1. Create booking
       const { error: bookingError } = await supabase.from('session_bookings').insert({
         user_id: user.id,
@@ -74,6 +119,11 @@ export default function LiveSessionsPage() {
       }
 
       setUser({ ...user, balance: newBalance });
+      setUserBookedSessionIds(prev => [...prev, session.id]);
+      setSessionBookingCounts(prev => ({
+        ...prev,
+        [session.id]: (prev[session.id] || 0) + 1
+      }));
       alert("تم الحجز بنجاح! ستجد تفاصيل الحصة ورابط زووم في لوحة التحكم قريباً.");
     }
   };
@@ -122,56 +172,78 @@ export default function LiveSessionsPage() {
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter animate-in fade-in duration-300">
-          {filteredSessions.map(session => (
-            <div key={session.id} className="glass-card rounded-xl p-6 relative overflow-hidden flex flex-col h-full group hover:shadow-[0_10px_30px_-10px_rgba(0,210,255,0.15)] hover:border-primary/30 transition-all duration-300">
-              <div className="flex justify-between items-start mb-6">
-                <div className="bg-secondary/10 text-secondary px-3 py-1 rounded-md border border-secondary/20 flex items-center gap-2">
-                  <span className="material-symbols-outlined text-[16px]">group</span>
-                  <span className="font-label-caps text-label-caps">{session.max_seats} مقعد</span>
-                </div>
-                <div className="text-right">
-                  <span className="font-code-sm text-code-sm text-primary">LVL: {session.level}</span>
-                </div>
-              </div>
-              
-              <h3 className="font-headline-md text-on-surface mb-2">{session.title}</h3>
-              {session.description && <p className="text-sm text-on-surface-variant mb-4">{session.description}</p>}
-              
-              <div className="flex items-center gap-3 mb-6">
-                <div className="w-8 h-8 rounded-full overflow-hidden border border-white/10 bg-surface-container-highest flex items-center justify-center text-primary">
-                  <span className="material-symbols-outlined">person</span>
-                </div>
-                <span className="text-on-surface-variant font-body-base">{session.instructor_name}</span>
-              </div>
-              
-              <div className="space-y-3 mb-8">
-                <div className="flex items-center gap-3 text-on-surface-variant">
-                  <span className="material-symbols-outlined text-primary">calendar_today</span>
-                  <span className="font-body-base">{new Date(session.session_date).toLocaleDateString('ar-EG', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</span>
-                </div>
-                <div className="flex items-center gap-3 text-on-surface-variant">
-                  <span className="material-symbols-outlined text-primary">schedule</span>
-                  <span className="font-body-base">{new Date(session.session_date).toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit' })}</span>
-                </div>
-              </div>
-              
-              <div className="mt-auto pt-6 border-t border-white/5 flex items-center justify-between">
-                <div className="text-right">
-                  <span className="font-label-caps text-label-caps text-on-surface-variant block">سعر الحصة</span>
-                  <div className="flex items-baseline gap-1">
-                    <span className="font-code-sm text-display-lg-mobile text-primary">{session.price}</span>
-                    <span className="text-on-surface-variant font-body-base">EGP</span>
+          {filteredSessions.map(session => {
+            const currentBookings = sessionBookingCounts[session.id] || 0;
+            const seatsLeft = Math.max(0, session.max_seats - currentBookings);
+            const isFull = seatsLeft === 0;
+            const hasBooked = userBookedSessionIds.includes(session.id);
+
+            return (
+              <div key={session.id} className="glass-card rounded-xl p-6 relative overflow-hidden flex flex-col h-full group hover:shadow-[0_10px_30px_-10px_rgba(0,210,255,0.15)] hover:border-primary/30 transition-all duration-300">
+                <div className="flex justify-between items-start mb-6">
+                  <div className={`px-3 py-1 rounded-md border flex items-center gap-2 ${
+                    isFull 
+                      ? 'bg-error/10 text-error border-error/20' 
+                      : seatsLeft < 5 
+                        ? 'bg-amber-500/10 text-amber-500 border-amber-500/20'
+                        : 'bg-secondary/10 text-secondary border-secondary/20'
+                  }`}>
+                    <span className="material-symbols-outlined text-[16px]">{isFull ? 'block' : 'group'}</span>
+                    <span className="font-label-caps text-label-caps text-xs">
+                      {isFull ? 'مكتملة العدد' : seatsLeft < 5 ? `متبقي ${seatsLeft} مقاعد فقط!` : `متاح ${seatsLeft} من ${session.max_seats}`}
+                    </span>
+                  </div>
+                  <div className="text-right">
+                    <span className="font-code-sm text-code-sm text-primary">LVL: {session.level}</span>
                   </div>
                 </div>
-                <button 
-                  onClick={() => handleBooking(session)}
-                  className="bg-primary text-on-primary font-label-caps text-label-caps px-6 py-3 rounded-lg hover:brightness-110 active:scale-95 transition-all shadow-[0_0_15px_rgba(0,210,255,0.3)]"
-                >
-                  احجز الآن
-                </button>
+                
+                <h3 className="font-headline-md text-on-surface mb-2">{session.title}</h3>
+                {session.description && <p className="text-sm text-on-surface-variant mb-4">{session.description}</p>}
+                
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="w-8 h-8 rounded-full overflow-hidden border border-white/10 bg-surface-container-highest flex items-center justify-center text-primary">
+                    <span className="material-symbols-outlined">person</span>
+                  </div>
+                  <span className="text-on-surface-variant font-body-base">{session.instructor_name}</span>
+                </div>
+                
+                <div className="space-y-3 mb-8">
+                  <div className="flex items-center gap-3 text-on-surface-variant">
+                    <span className="material-symbols-outlined text-primary">calendar_today</span>
+                    <span className="font-body-base">{new Date(session.session_date).toLocaleDateString('ar-EG', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</span>
+                  </div>
+                  <div className="flex items-center gap-3 text-on-surface-variant">
+                    <span className="material-symbols-outlined text-primary">schedule</span>
+                    <span className="font-body-base">{new Date(session.session_date).toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit' })}</span>
+                  </div>
+                </div>
+                
+                <div className="mt-auto pt-6 border-t border-white/5 flex items-center justify-between">
+                  <div className="text-right">
+                    <span className="font-label-caps text-label-caps text-on-surface-variant block">سعر الحصة</span>
+                    <div className="flex items-baseline gap-1">
+                      <span className="font-code-sm text-display-lg-mobile text-primary">{session.price}</span>
+                      <span className="text-on-surface-variant font-body-base">EGP</span>
+                    </div>
+                  </div>
+                  <button 
+                    onClick={() => handleBooking(session)}
+                    disabled={isFull || hasBooked}
+                    className={`font-label-caps text-label-caps px-6 py-3 rounded-lg transition-all active:scale-95 ${
+                      hasBooked 
+                        ? 'bg-green-500/20 text-green-500 cursor-not-allowed border border-green-500/20 shadow-none'
+                        : isFull 
+                          ? 'bg-surface-container-highest text-on-surface-variant cursor-not-allowed shadow-none'
+                          : 'bg-primary text-on-primary hover:brightness-110 shadow-[0_0_15px_rgba(0,210,255,0.3)]'
+                    }`}
+                  >
+                    {hasBooked ? 'تم الحجز' : isFull ? 'مكتمل العدد' : 'احجز الآن'}
+                  </button>
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       )}
     </main>
