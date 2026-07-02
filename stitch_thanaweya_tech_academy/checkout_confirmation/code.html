@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+
+<html class="dark" dir="rtl" lang="ar"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-tertiary-container": "#6100de",
+                    "primary-fixed": "#b6ebff",
+                    "on-tertiary-fixed-variant": "#5700c9",
+                    "on-surface": "#dfe2eb",
+                    "inverse-primary": "#00677f",
+                    "surface-container": "#1c2026",
+                    "secondary": "#d7ffc5",
+                    "secondary-fixed": "#79ff5b",
+                    "surface-container-highest": "#31353c",
+                    "on-primary": "#003543",
+                    "on-secondary-fixed": "#022100",
+                    "on-primary-container": "#00566a",
+                    "surface-tint": "#47d6ff",
+                    "surface-variant": "#31353c",
+                    "on-tertiary": "#3c0090",
+                    "error": "#ffb4ab",
+                    "secondary-container": "#2ff801",
+                    "surface-dim": "#10141a",
+                    "on-secondary": "#053900",
+                    "on-surface-variant": "#bbc9cf",
+                    "on-secondary-fixed-variant": "#095300",
+                    "tertiary-fixed": "#e9ddff",
+                    "inverse-on-surface": "#2d3137",
+                    "primary-fixed-dim": "#47d6ff",
+                    "background": "#10141a",
+                    "on-primary-fixed-variant": "#004e60",
+                    "on-background": "#dfe2eb",
+                    "primary-container": "#00d2ff",
+                    "surface-container-high": "#262a31",
+                    "tertiary-container": "#ccb6ff",
+                    "tertiary": "#e5d7ff",
+                    "surface-container-lowest": "#0a0e14",
+                    "primary": "#a5e7ff",
+                    "surface-bright": "#353940",
+                    "on-primary-fixed": "#001f28",
+                    "on-error": "#690005",
+                    "error-container": "#93000a",
+                    "on-error-container": "#ffdad6",
+                    "tertiary-fixed-dim": "#d1bcff",
+                    "on-secondary-container": "#0f6d00",
+                    "surface": "#10141a",
+                    "outline-variant": "#3c494e",
+                    "inverse-surface": "#dfe2eb",
+                    "on-tertiary-fixed": "#23005b",
+                    "surface-container-low": "#181c22",
+                    "secondary-fixed-dim": "#2ae500",
+                    "outline": "#859399"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "container-margin": "24px",
+                    "base": "8px",
+                    "section-gap": "64px",
+                    "gutter": "16px"
+            },
+            "fontFamily": {
+                    "display-lg": ["IBM Plex Sans Arabic"],
+                    "display-lg-mobile": ["IBM Plex Sans Arabic"],
+                    "code-sm": ["JetBrains Mono"],
+                    "body-base": ["IBM Plex Sans Arabic"],
+                    "label-caps": ["JetBrains Mono"],
+                    "headline-md": ["IBM Plex Sans Arabic"]
+            },
+            "fontSize": {
+                    "display-lg": ["48px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                    "display-lg-mobile": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                    "code-sm": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                    "body-base": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "label-caps": ["12px", {"lineHeight": "1.0", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                    "headline-md": ["24px", {"lineHeight": "1.4", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #0a0e14;
+            color: #dfe2eb;
+            overflow-x: hidden;
+        }
+        .glass-card {
+            background: rgba(18, 24, 32, 0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .glow-border {
+            border: 1px solid rgba(0, 210, 255, 0.3);
+            box-shadow: 0 0 15px rgba(0, 210, 255, 0.1);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .animate-slide-up {
+            animation: slideUp 0.5s ease-out forwards;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #0a0e14; }
+        ::-webkit-scrollbar-thumb { background: #31353c; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #47d6ff; }
+    </style>
+</head>
+<body class="font-body-base">
+<!-- Top Navigation Bar (Suppressed FAB on Transactional Screen) -->
+<nav class="fixed top-0 w-full z-50 border-b border-white/10 bg-surface-container/80 backdrop-blur-xl h-20 shadow-[0_0_15px_rgba(0,210,255,0.1)]">
+<div class="flex flex-row-reverse justify-between items-center px-container-margin w-full max-w-7xl mx-auto h-full">
+<div class="flex items-center gap-4">
+<span class="font-display-lg text-display-lg-mobile font-bold text-primary">ثانوية بروجرامر</span>
+</div>
+<div class="flex items-center gap-6">
+<button class="flex items-center gap-2 text-on-surface-variant hover:text-primary transition-colors" onclick="window.history.back()">
+<span class="material-symbols-outlined">arrow_forward</span>
+<span class="hidden md:inline font-body-base">الرجوع للمتجر</span>
+</button>
+</div>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="pt-32 pb-20 px-container-margin max-w-5xl mx-auto">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter" id="checkout-view">
+<!-- Left Side: Order Summary & Details -->
+<div class="lg:col-span-7 space-y-gutter animate-slide-up" style="animation-delay: 0.1s;">
+<div class="glass-card rounded-xl p-base md:p-8">
+<div class="flex items-center gap-3 mb-6">
+<span class="material-symbols-outlined text-primary">shopping_cart</span>
+<h2 class="font-headline-md text-headline-md">ملخص الطلب</h2>
+</div>
+<div class="space-y-4">
+<!-- Product Item -->
+<div class="flex items-center justify-between p-4 bg-white/5 rounded-lg border border-white/5">
+<div class="flex items-center gap-4">
+<div class="w-16 h-16 rounded-lg bg-surface-container-high flex items-center justify-center border border-white/10 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A futuristic professional coding course thumbnail with neon blue accents, featuring high-tech abstract nodes and digital circuits in a sleek dark mode aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC-m_Oy2yEyZt9Xtzc8wtaHLc4s-b2ieZ3Dd7vzXt0UXLKp-mmUe5p9FX3chhinM9g4-isETfrckWEopf1SAZiJ16sLMnu12ayjPz0pvB2NQ5kbbZX2SPPMHbKv93eWc4Qr_-vFvpBfrqHBfPHctrs8r_f7OVEwSWZqCbtH5DHKJpAyMf8gLZXt75KnF2nlKSkDsofPKlz3dXCD3u31eFJD3tE7XdxW5tbfP6k8atKI9yHus3BtMhHMG0GqvvHnneZhCod5ste5qGw"/>
+</div>
+<div>
+<h3 class="font-bold text-on-surface">دورة تطوير الويب المتكاملة</h3>
+<p class="text-sm text-on-surface-variant font-label-caps">LEVEL: ADVANCED</p>
+</div>
+</div>
+<div class="text-left">
+<span class="font-code-sm text-primary">١,٥٠٠ EGP</span>
+</div>
+</div>
+<!-- Product Item 2 -->
+<div class="flex items-center justify-between p-4 bg-white/5 rounded-lg border border-white/5">
+<div class="flex items-center gap-4">
+<div class="w-16 h-16 rounded-lg bg-surface-container-high flex items-center justify-center border border-white/10 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A stylized digital book cover for an AI and Python programming textbook, glowing with emerald green and cyan light on a textured carbon fiber background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDlfCrS0ihP-kasuPwZ5vfD0A97PPBx0PnsCyhjBO2ZXCj4F_HSGZ__fY3ukmZYZYZmqP2ItwQQd4VcQ-5qIJB3agR7dSkuV7Sl-gBQio-DqtRvlfTqv9I7OU62cv1kB9EslmGxozCb4K7JKRru7GcmZpJgtpPOZ512vZ5DJ5ts-aTPzFOdugSTgmboWyESyOhIsMrPw4ImsRedY2eKDEr-1sfGvvrtP7bGq8kl8PcbRo2hYxpkKEIHtxkAIkuS9f5q2K87N0XvYZo"/>
+</div>
+<div>
+<h3 class="font-bold text-on-surface">كتاب الخوارزميات البرمجية</h3>
+<p class="text-sm text-on-surface-variant font-label-caps">RESOURCE: E-BOOK</p>
+</div>
+</div>
+<div class="text-left">
+<span class="font-code-sm text-primary">٤٥٠ EGP</span>
+</div>
+</div>
+</div>
+<div class="mt-8 pt-6 border-t border-white/10 space-y-3">
+<div class="flex justify-between text-on-surface-variant">
+<span>المجموع الفرعي</span>
+<span class="font-code-sm">١,٩٥٠ EGP</span>
+</div>
+<div class="flex justify-between text-on-surface-variant">
+<span>ضريبة القيمة المضافة</span>
+<span class="font-code-sm">٢٧٣ EGP</span>
+</div>
+<div class="flex justify-between text-primary text-xl font-bold pt-2">
+<span>الإجمالي الكلي</span>
+<span class="font-code-sm">٢,٢٢٣ EGP</span>
+</div>
+</div>
+</div>
+<!-- Trusted Badge -->
+<div class="flex items-center gap-4 p-4 rounded-xl border border-secondary/20 bg-secondary/5">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">verified_user</span>
+<p class="text-sm text-on-surface-variant">جميع المعاملات المالية مشفرة وآمنة تماماً وفقاً للمعايير الدولية.</p>
+</div>
+</div>
+<!-- Right Side: Wallet & Payment -->
+<div class="lg:col-span-5 space-y-gutter animate-slide-up" style="animation-delay: 0.2s;">
+<div class="glass-card glow-border rounded-xl p-base md:p-8">
+<div class="flex items-center gap-3 mb-8">
+<span class="material-symbols-outlined text-primary">account_balance_wallet</span>
+<h2 class="font-headline-md text-headline-md">تأكيد الدفع</h2>
+</div>
+<div class="space-y-6">
+<!-- Wallet Status -->
+<div class="p-6 rounded-xl bg-surface-container-lowest border border-white/5 space-y-4">
+<div class="flex justify-between items-center">
+<span class="text-on-surface-variant">الرصيد المتاح</span>
+<span class="font-code-sm text-secondary text-lg">٤,٥٠٠ EGP</span>
+</div>
+<div class="w-full bg-white/5 h-2 rounded-full overflow-hidden">
+<div class="bg-secondary h-full shadow-[0_0_10px_#79ff5b]" style="width: 100%"></div>
+</div>
+<div class="flex justify-between items-center text-sm">
+<span class="text-on-surface-variant">تكلفة الطلب</span>
+<span class="font-code-sm text-error">٢,٢٢٣ EGP</span>
+</div>
+<div class="pt-2 border-t border-white/5 flex justify-between items-center">
+<span class="text-on-surface">الرصيد بعد الدفع</span>
+<span class="font-code-sm text-primary font-bold">٢,٢٧٧ EGP</span>
+</div>
+</div>
+<!-- Action Button -->
+<button class="w-full bg-primary-container text-on-primary-container font-bold py-5 rounded-xl flex items-center justify-center gap-3 active:scale-95 transition-all duration-300 hover:shadow-[0_0_20px_rgba(0,210,255,0.4)]" id="pay-button">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">lock</span>
+<span class="font-headline-md">تأكيد الدفع الآن</span>
+</button>
+<p class="text-center text-xs text-on-surface-variant px-4">
+                            بالنقر على تأكيد الدفع، فإنك توافق على <a class="text-primary underline" href="#">شروط الخدمة</a> و <a class="text-primary underline" href="#">سياسة الاسترجاع</a>.
+                        </p>
+</div>
+</div>
+<!-- Crypto/Dev Branding Element -->
+<div class="p-6 glass-card rounded-xl overflow-hidden relative group">
+<div class="absolute inset-0 opacity-10 pointer-events-none">
+<div class="grid grid-cols-6 gap-2 p-2">
+<div class="h-1 bg-primary w-full"></div>
+<div class="h-1 bg-primary w-full"></div>
+<div class="h-1 bg-primary w-full"></div>
+<div class="h-1 bg-primary w-full"></div>
+<div class="h-1 bg-primary w-full"></div>
+<div class="h-1 bg-primary w-full"></div>
+</div>
+</div>
+<div class="relative z-10">
+<span class="font-label-caps text-primary text-[10px] block mb-2 tracking-widest">ENCRYPTION ENGINE</span>
+<div class="font-code-sm text-on-surface-variant text-[12px] opacity-60">
+                            SECURE_HANDSHAKE: ACTIVE<br/>
+                            PROTOCOL: TLS_1.3_V2<br/>
+                            HASH: SHA-512_SECURE
+                        </div>
+</div>
+</div>
+</div>
+</div>
+<!-- Success View (Hidden by default) -->
+<div class="hidden max-w-2xl mx-auto text-center space-y-8 py-10 animate-slide-up" id="success-view">
+<div class="relative inline-block">
+<div class="absolute inset-0 bg-secondary opacity-20 blur-3xl rounded-full"></div>
+<span class="material-symbols-outlined text-[120px] text-secondary relative z-10" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<div class="space-y-4">
+<h1 class="font-display-lg text-display-lg-mobile text-primary">تمت العملية بنجاح!</h1>
+<p class="text-on-surface-variant text-xl">لقد تم خصم المبلغ بنجاح وإضافة الكورسات إلى حسابك.</p>
+</div>
+<div class="glass-card rounded-2xl p-8 border-secondary/30 text-right space-y-6">
+<div class="flex justify-between items-center border-b border-white/10 pb-4">
+<span class="text-on-surface-variant font-label-caps">RECEIPT #INV-99210</span>
+<span class="text-on-surface-variant font-label-caps">٢٥ مايو، ٢٠٢٤</span>
+</div>
+<div class="space-y-4">
+<div class="flex justify-between">
+<span class="text-on-surface">دورة تطوير الويب المتكاملة</span>
+<span class="font-code-sm">١,٥٠٠ EGP</span>
+</div>
+<div class="flex justify-between">
+<span class="text-on-surface">كتاب الخوارزميات البرمجية</span>
+<span class="font-code-sm">٤٥٠ EGP</span>
+</div>
+<div class="flex justify-between font-bold text-xl pt-4 border-t border-white/5 text-secondary">
+<span>الإجمالي المدفوع</span>
+<span class="font-code-sm">٢,٢٢٣ EGP</span>
+</div>
+</div>
+</div>
+<div class="flex flex-col sm:flex-row gap-4 justify-center">
+<a class="bg-primary-container text-on-primary-container font-bold px-10 py-4 rounded-xl hover:shadow-[0_0_15px_rgba(0,210,255,0.3)] transition-all" href="#">
+                    الذهاب إلى لوحة التحكم
+                </a>
+<button class="border border-white/20 hover:bg-white/5 text-on-surface font-bold px-10 py-4 rounded-xl transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">download</span>
+                    تحميل الفاتورة
+                </button>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="w-full mt-section-gap border-t border-white/5 bg-surface-container-lowest">
+<div class="flex flex-col items-center py-16 px-container-margin gap-8 w-full max-w-7xl mx-auto">
+<span class="font-display-lg text-display-lg-mobile text-primary">ثانوية بروجرامر</span>
+<div class="flex gap-8 text-on-surface-variant">
+<a class="hover:text-primary transition-colors" href="#">اتصل بنا</a>
+<a class="hover:text-primary transition-colors" href="#">الشروط والأحكام</a>
+<a class="hover:text-primary transition-colors" href="#">سياسة الخصوصية</a>
+</div>
+<p class="text-on-surface-variant text-sm font-body-base opacity-60">
+                © ٢٠٢٤ منصة المبرمج المصري - جميع الحقوق محفوظة
+            </p>
+</div>
+</footer>
+<script>
+        document.getElementById('pay-button').addEventListener('click', function() {
+            // Simulated loading state
+            this.disabled = true;
+            this.innerHTML = `
+                <svg class="animate-spin h-5 w-5 text-on-primary-container" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                جاري معالجة الطلب...
+            `;
+
+            setTimeout(() => {
+                document.getElementById('checkout-view').classList.add('hidden');
+                document.getElementById('success-view').classList.remove('hidden');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }, 1500);
+        });
+    </script>
+</body></html>

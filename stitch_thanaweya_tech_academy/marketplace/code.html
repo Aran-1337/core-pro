@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+
+<html class="dark" dir="rtl" lang="ar"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>المتجر - ثانوية بروجرامر</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                "on-tertiary-container": "#6100de",
+                "primary-fixed": "#b6ebff",
+                "on-tertiary-fixed-variant": "#5700c9",
+                "on-surface": "#dfe2eb",
+                "inverse-primary": "#00677f",
+                "surface-container": "#1c2026",
+                "secondary": "#d7ffc5",
+                "secondary-fixed": "#79ff5b",
+                "surface-container-highest": "#31353c",
+                "on-primary": "#003543",
+                "on-secondary-fixed": "#022100",
+                "on-primary-container": "#00566a",
+                "surface-tint": "#47d6ff",
+                "surface-variant": "#31353c",
+                "on-tertiary": "#3c0090",
+                "error": "#ffb4ab",
+                "secondary-container": "#2ff801",
+                "surface-dim": "#10141a",
+                "on-secondary": "#053900",
+                "on-surface-variant": "#bbc9cf",
+                "on-secondary-fixed-variant": "#095300",
+                "tertiary-fixed": "#e9ddff",
+                "inverse-on-surface": "#2d3137",
+                "primary-fixed-dim": "#47d6ff",
+                "background": "#10141a",
+                "on-primary-fixed-variant": "#004e60",
+                "on-background": "#dfe2eb",
+                "primary-container": "#00d2ff",
+                "surface-container-high": "#262a31",
+                "tertiary-container": "#ccb6ff",
+                "tertiary": "#e5d7ff",
+                "surface-container-lowest": "#0a0e14",
+                "primary": "#a5e7ff",
+                "surface-bright": "#353940",
+                "on-primary-fixed": "#001f28",
+                "on-error": "#690005",
+                "error-container": "#93000a",
+                "on-error-container": "#ffdad6",
+                "tertiary-fixed-dim": "#d1bcff",
+                "on-secondary-container": "#0f6d00",
+                "surface": "#10141a",
+                "outline-variant": "#3c494e",
+                "inverse-surface": "#dfe2eb",
+                "on-tertiary-fixed": "#23005b",
+                "surface-container-low": "#181c22",
+                "secondary-fixed-dim": "#2ae500",
+                "outline": "#859399"
+            },
+            "borderRadius": {
+                "DEFAULT": "0.25rem",
+                "lg": "0.5rem",
+                "xl": "0.75rem",
+                "full": "9999px"
+            },
+            "spacing": {
+                "container-margin": "24px",
+                "base": "8px",
+                "section-gap": "64px",
+                "gutter": "16px"
+            },
+            "fontFamily": {
+                "display-lg": ["IBM Plex Sans Arabic"],
+                "display-lg-mobile": ["IBM Plex Sans Arabic"],
+                "code-sm": ["JetBrains Mono"],
+                "body-base": ["IBM Plex Sans Arabic"],
+                "label-caps": ["JetBrains Mono"],
+                "headline-md": ["IBM Plex Sans Arabic"]
+            },
+            "fontSize": {
+                "display-lg": ["48px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                "display-lg-mobile": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                "code-sm": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                "body-base": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                "label-caps": ["12px", {"lineHeight": "1.0", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                "headline-md": ["24px", {"lineHeight": "1.4", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #0a0e14;
+            color: #dfe2eb;
+            overflow-x: hidden;
+        }
+        .glass-card {
+            background: rgba(18, 24, 32, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .glass-card:hover {
+            border-color: rgba(0, 210, 255, 0.3);
+            transform: translateY(-4px);
+            box-shadow: 0 0 20px rgba(0, 210, 255, 0.1);
+        }
+        .neon-glow {
+            box-shadow: 0 0 15px rgba(0, 210, 255, 0.2);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .active-tab {
+            border-bottom: 2px solid #00d2ff;
+            color: #a5e7ff;
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #0a0e14; }
+        ::-webkit-scrollbar-thumb { background: #1c2026; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #31353c; }
+
+        /* Modal Animation */
+        .modal-overlay { transition: opacity 0.3s ease; }
+        .modal-content { transition: transform 0.3s ease, opacity 0.3s ease; }
+    </style>
+</head>
+<body class="font-body-base antialiased">
+<!-- Header / TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-surface-container/80 backdrop-blur-xl border-b border-white/10 shadow-[0_0_15px_rgba(0,210,255,0.1)]">
+<div class="flex flex-row-reverse justify-between items-center px-container-margin w-full max-w-7xl mx-auto h-20">
+<!-- Brand -->
+<div class="flex items-center gap-3">
+<span class="font-display-lg text-display-lg-mobile md:text-display-lg font-bold text-primary">ثانوية بروجرامر</span>
+<span class="material-symbols-outlined text-primary text-3xl" style="font-variation-settings: 'FILL' 1;">terminal</span>
+</div>
+<!-- Nav Links (Desktop) -->
+<nav class="hidden md:flex flex-row-reverse gap-8">
+<a class="text-on-surface-variant hover:text-on-surface transition-colors font-medium" href="#">الكورسات</a>
+<a class="text-primary border-b-2 border-primary pb-1 font-medium" href="#">المتجر</a>
+<a class="text-on-surface-variant hover:text-on-surface transition-colors font-medium" href="#">حصص مباشرة</a>
+</nav>
+<!-- Actions -->
+<div class="flex items-center gap-4">
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-white/5 transition-all text-on-surface-variant active:scale-95">
+<span class="material-symbols-outlined" data-icon="account_balance_wallet">account_balance_wallet</span>
+</button>
+<div class="w-10 h-10 rounded-full border border-white/10 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A professional close-up portrait of a young Egyptian student wearing modern tech-inspired glasses, looking confidently into the camera with soft studio lighting and a subtle digital code overlay in the background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBAmwuM6OXF74Wlncjx8jDZluszrWDDUUPfVcpnQTnPeYYPxmtmq_8B_Vf_jl_bvpe0UUESbq2cddRoxpJFt9ATM07N_qGIR7R3ZLVON3WLMnoWfZ14xuX4B3l-_NiVeTEYjefH46sV-3zxrj21-LxVTE7ag4YD9zEgiFGJTTvzQQCzp9W-nuYa-yf07RrZCieFhGy7ZvNpB-80RB5l8u6KNzqmv76vqimAMc41_ys2L_fx_c_MZusIQaDaYGFboymRHri2OUL8lNI"/>
+</div>
+</div>
+</div>
+</header>
+<main class="pt-32 pb-16 px-container-margin max-w-7xl mx-auto min-h-screen">
+<!-- Marketplace Hero Section -->
+<section class="mb-12">
+<h1 class="font-display-lg text-display-lg-mobile md:text-display-lg text-on-surface mb-4">متجر الأدوات التعليمية</h1>
+<p class="text-on-surface-variant max-w-2xl leading-relaxed">
+                اكتشف أفضل الموارد التعليمية المصممة خصيصاً لطلاب البرمجة والذكاء الاصطناعي. من الكتب الورقية إلى المذكرات الرقمية الاحترافية.
+            </p>
+</section>
+<!-- Category Filter & Search Bar -->
+<section class="flex flex-col md:flex-row-reverse justify-between items-center gap-6 mb-12">
+<!-- Filter Chips -->
+<div class="flex flex-row-reverse gap-3 overflow-x-auto w-full md:w-auto pb-2 md:pb-0">
+<button class="px-6 py-2 rounded-full glass-card border-primary/40 text-primary whitespace-nowrap active:scale-95">الكل</button>
+<button class="px-6 py-2 rounded-full glass-card text-on-surface-variant hover:border-white/20 whitespace-nowrap active:scale-95">مذكرات</button>
+<button class="px-6 py-2 rounded-full glass-card text-on-surface-variant hover:border-white/20 whitespace-nowrap active:scale-95">كتب</button>
+<button class="px-6 py-2 rounded-full glass-card text-on-surface-variant hover:border-white/20 whitespace-nowrap active:scale-95">مراجع</button>
+</div>
+<!-- Search -->
+<div class="relative w-full md:max-w-md">
+<span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="w-full bg-surface-container-lowest border border-white/5 rounded-xl py-3 pr-12 pl-4 text-on-surface focus:outline-none focus:border-primary-container/50 transition-all" placeholder="ابحث عن كتاب أو مذكرة..." type="text"/>
+</div>
+</section>
+<!-- Product Bento Grid -->
+<section class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-gutter">
+<!-- Product Card 1 -->
+<div class="glass-card rounded-2xl overflow-hidden flex flex-col cursor-pointer group" onclick="openProductModal('أساسيات بايثون للثانوية', '500 EGP', 'book', 'مرجع شامل يغطي كافة جوانب لغة بايثون المقررة على طلاب مسار البرمجة، مع أمثلة عملية من امتحانات سابقة.')">
+<div class="relative h-64 overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A high-quality 3D render of a professional textbook titled Python for High School, featuring a dark sleek cover with glowing neon blue circuitry patterns. The book is placed on a reflective glass surface with a cyber-tech laboratory background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD0pkpJ-K8iOYEmRqZAJ2wCskiIpb23yNFJivdL05sda2i4xqbpjUYrhDYac_T3Qa3txDLjl2t0XQyuUxOmckNhccJVGXA9Z_rq5juUu7XalByJyYJoLds32uLVL7vVSwsdom1tCLay4oKtOxwpmk9aTXuHpxFP0WgyMtDsqTBT-bAiOEm6xA64WWBLtdKXmFvWjFws6ULcBfdEpusYzDnQkTY_83yEGyUl4Z-ubfW7Q-sNzgTR-D9qyvc-ivmHjcTFiwKemCfRpFU"/>
+<div class="absolute top-4 right-4 px-3 py-1 rounded bg-primary-container/10 backdrop-blur-md border border-primary/20 text-primary font-code-sm text-code-sm">
+                        كتاب
+                    </div>
+</div>
+<div class="p-6 flex flex-col flex-grow">
+<h3 class="font-headline-md text-on-surface mb-2">أساسيات بايثون للثانوية</h3>
+<p class="text-on-surface-variant text-sm mb-4 line-clamp-2">مرجع شامل يغطي كافة جوانب لغة بايثون المقررة على طلاب مسار البرمجة...</p>
+<div class="mt-auto flex items-center justify-between">
+<span class="font-code-sm text-lg font-bold text-primary">500 EGP</span>
+<button class="w-10 h-10 rounded-lg bg-surface-container-highest flex items-center justify-center hover:bg-primary hover:text-on-primary transition-all">
+<span class="material-symbols-outlined">add_shopping_cart</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Product Card 2 -->
+<div class="glass-card rounded-2xl overflow-hidden flex flex-col cursor-pointer group" onclick="openProductModal('مذكرة الخوارزميات - الجزء الأول', '120 EGP', 'notes', 'مذكرة مكثفة لشرح الخوارزميات وهياكل البيانات بأسلوب مبسط ورسوم توضيحية.')">
+<div class="relative h-64 overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A premium digital educational binder mockup featuring abstract geometric data structures and glowing lines. The design is sleek, using a deep charcoal and vibrant green palette to signify progress and logic. Soft ambient blue light hits the edges of the binder." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCwYb6FC2nRCrfat04IqVx_AyyiBlX93agnfXaKWiZ4j0i95XJrM9wDeMF2Y-07BcC4tlJ-1uy-oeYJH5qAS99bz6eP_HlIEgt3p7fsft3BvlJcIZJ_8fmrU0BtGkKiBWmzr0fNQHv9YzPjn5cB-U9qPEbpSDN3hMp9rORX3QpHngDkA47C7E8iNmhtBmkPnwivlAOd4c4OcMNELOI04H5H3PzaENGdELLA_H2qPg6p7Dnars3y9Mn9-oROOY8GFK0PtxZmfI1ZY4s"/>
+<div class="absolute top-4 right-4 px-3 py-1 rounded bg-secondary-container/10 backdrop-blur-md border border-secondary/20 text-secondary font-code-sm text-code-sm">
+                        مذكرات
+                    </div>
+</div>
+<div class="p-6 flex flex-col flex-grow">
+<h3 class="font-headline-md text-on-surface mb-2">مذكرة الخوارزميات - الجزء الأول</h3>
+<p class="text-on-surface-variant text-sm mb-4 line-clamp-2">مذكرة مكثفة لشرح الخوارزميات وهياكل البيانات بأسلوب مبسط...</p>
+<div class="mt-auto flex items-center justify-between">
+<span class="font-code-sm text-lg font-bold text-primary">120 EGP</span>
+<button class="w-10 h-10 rounded-lg bg-surface-container-highest flex items-center justify-center hover:bg-primary hover:text-on-primary transition-all">
+<span class="material-symbols-outlined">add_shopping_cart</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Product Card 3 -->
+<div class="glass-card rounded-2xl overflow-hidden flex flex-col cursor-pointer group" onclick="openProductModal('دليل الذكاء الاصطناعي الشامل', '750 EGP', 'reference', 'أضخم مرجع عربي لطلاب الثانوية في مجال الذكاء الاصطناعي وتعلم الآلة.')">
+<div class="relative h-64 overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A thick, luxury hardback encyclopedia with an embossed holographic brain and circuit design. The cover is a matte midnight black with glowing electric purple accents. It sits in a high-tech study room with soft neon backlighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAcMGcu4JQxkjkIDG4PRHE-_byJ84pEYtwnjDUip-lrv0y0-l23CmQzP6ukQpl3bFiy0He-10nxgmweR1TJMvoaVWNCqU1PnuQYAhhmgOJv9QhP0XfvOkmQUi2CcxIx_fqEsAhBN1NK_ic-T0u23QuAbvB4D-VXgU0To0HYgjYWF_Fg1k7X-Cqzpz5dlag-Hfyt5eMu72IjknvqhRGXic7UnVmpQD2Sa_nMYyAmfhnkvKTagaQ2aVh65ZOlPf5Qp_l4MF-r2Mc7Po0"/>
+<div class="absolute top-4 right-4 px-3 py-1 rounded bg-tertiary-container/10 backdrop-blur-md border border-tertiary/20 text-tertiary font-code-sm text-code-sm">
+                        مراجع
+                    </div>
+</div>
+<div class="p-6 flex flex-col flex-grow">
+<h3 class="font-headline-md text-on-surface mb-2">دليل الذكاء الاصطناعي الشامل</h3>
+<p class="text-on-surface-variant text-sm mb-4 line-clamp-2">أضخم مرجع عربي لطلاب الثانوية في مجال الذكاء الاصطناعي...</p>
+<div class="mt-auto flex items-center justify-between">
+<span class="font-code-sm text-lg font-bold text-primary">750 EGP</span>
+<button class="w-10 h-10 rounded-lg bg-surface-container-highest flex items-center justify-center hover:bg-primary hover:text-on-primary transition-all">
+<span class="material-symbols-outlined">add_shopping_cart</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Product Card 4 -->
+<div class="glass-card rounded-2xl overflow-hidden flex flex-col cursor-pointer group" onclick="openProductModal('بنك الأسئلة البرمجية', '200 EGP', 'notes', 'أكثر من 1000 سؤال وتمرين عملي محلول لتغطية كافة أفكار المنهج.')">
+<div class="relative h-64 overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A sleek digital tablet displaying a vibrant programming interface with multiple choice questions and code snippets. The UI on the screen uses a dark terminal aesthetic with syntax highlighting in orange and teal. The setting is a modern workstation with a mechanical keyboard." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCPJ1_4-mAgIGRStYiBSRbc9FVXUhcEQmzcVBZ__o16MmtpQ901RAUhGj44kmWrMgPh3Vr4i4XVx-sXITGZaSjlNavFmlPTJvTsxSCPu6zsKmlbEBAhpP-yOzRezX-_P-HrWIgFV25_zy_iX6dVcmw_s0r9Tj4XHVNfOZRq9B3RRTFIuCIaMUWuMRIlHxdSVeTSGNgU1I04z_oogQllAEGHjilAA6HSfpamsLKtU1ld7OmpH_O-IF3FF8V4KalunFpkx1KqZMrbU3U"/>
+<div class="absolute top-4 right-4 px-3 py-1 rounded bg-secondary-container/10 backdrop-blur-md border border-secondary/20 text-secondary font-code-sm text-code-sm">
+                        مذكرات
+                    </div>
+</div>
+<div class="p-6 flex flex-col flex-grow">
+<h3 class="font-headline-md text-on-surface mb-2">بنك الأسئلة البرمجية</h3>
+<p class="text-on-surface-variant text-sm mb-4 line-clamp-2">أكثر من 1000 سؤال وتمرين عملي محلول لتغطية كافة أفكار المنهج...</p>
+<div class="mt-auto flex items-center justify-between">
+<span class="font-code-sm text-lg font-bold text-primary">200 EGP</span>
+<button class="w-10 h-10 rounded-lg bg-surface-container-highest flex items-center justify-center hover:bg-primary hover:text-on-primary transition-all">
+<span class="material-symbols-outlined">add_shopping_cart</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Product Card 5 -->
+<div class="glass-card rounded-2xl overflow-hidden flex flex-col cursor-pointer group">
+<div class="relative h-64 overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A futuristic software box art featuring a stylized 3D key and a digital lock, symbolizing access to exclusive web development content. Vibrant cyan and magenta gradients dominate the design with crisp, modern typography. Professional studio lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB5QdV0eSaUZKBD0V9Wy1hlYgiN5pdxTqRIrun98fgy5FZeuhno2OcKCQRgbjnpaC0KiKghnCjGxWIdO8SAhileQfisT3b3mEORav73Z5GKUxB5qh8Uegv6kWVEdbASqgnpQUlFXb2pKAVj7G_zdKtNOoF0v5zf7VePpdl4RB3X5NVEFSGdJrk78OYmniS-hd_o4UQh6wBD-ywGVYvcxuXdgIz1cdQJ_oWdQos0CMgMWELHcxsnfvU0T8VeYG3wwqP80i56A5qNEgc"/>
+<div class="absolute top-4 right-4 px-3 py-1 rounded bg-primary-container/10 backdrop-blur-md border border-primary/20 text-primary font-code-sm text-code-sm">
+                        كتاب
+                    </div>
+</div>
+<div class="p-6 flex flex-col flex-grow">
+<h3 class="font-headline-md text-on-surface mb-2">تطوير الويب للمبتدئين</h3>
+<p class="text-on-surface-variant text-sm mb-4 line-clamp-2">تعلم كيف تبني أول موقع الكتروني لك باستخدام HTML, CSS و JS...</p>
+<div class="mt-auto flex items-center justify-between">
+<span class="font-code-sm text-lg font-bold text-primary">350 EGP</span>
+<button class="w-10 h-10 rounded-lg bg-surface-container-highest flex items-center justify-center hover:bg-primary hover:text-on-primary transition-all">
+<span class="material-symbols-outlined">add_shopping_cart</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Product Card 6 -->
+<div class="glass-card rounded-2xl overflow-hidden flex flex-col cursor-pointer group">
+<div class="relative h-64 overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A minimalist white spiral notebook with a black technological 'Programmer' logo on the cover. The notebook is surrounded by high-tech peripherals like a wireless mouse and a glowing LED strip. Soft morning light coming through a window." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD_Urmx6mkjVGgcp9uqzp-rIW8cFnvfhI2jN0u-e_cmFAVrqJrVGTYMG3LtXmyF_sc720tteHbjGp3LXYlEszXVQ5SfBp0wUA4dq3LmbAS4CoalV_E4MZD7EHp4YmeJO3K4hGTtPbEKajx2LzDe4HrBpTZ13dg75fF5Nm1LozYJKC_pMMPpgL-PYlpEBUmzB-uERGYrf9exPFpr3gUL30nK8q_g78Wm40uWuQTpILnY0t161dCozbHRAO9VclZjlfXJtKMIHY9Duqs"/>
+<div class="absolute top-4 right-4 px-3 py-1 rounded bg-secondary-container/10 backdrop-blur-md border border-secondary/20 text-secondary font-code-sm text-code-sm">
+                        مذكرات
+                    </div>
+</div>
+<div class="p-6 flex flex-col flex-grow">
+<h3 class="font-headline-md text-on-surface mb-2">كشكول الأكواد الذكي</h3>
+<p class="text-on-surface-variant text-sm mb-4 line-clamp-2">مساحة خاصة لتدوين أفكارك البرمجية وتصميم الخوارزميات...</p>
+<div class="mt-auto flex items-center justify-between">
+<span class="font-code-sm text-lg font-bold text-primary">85 EGP</span>
+<button class="w-10 h-10 rounded-lg bg-surface-container-highest flex items-center justify-center hover:bg-primary hover:text-on-primary transition-all">
+<span class="material-symbols-outlined">add_shopping_cart</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full mt-section-gap border-t border-white/5 bg-surface-container-lowest">
+<div class="flex flex-col items-center py-16 px-container-margin gap-8 w-full max-w-7xl mx-auto">
+<div class="flex items-center gap-3">
+<span class="font-display-lg text-display-lg-mobile text-primary">ثانوية بروجرامر</span>
+<span class="material-symbols-outlined text-primary text-3xl" style="font-variation-settings: 'FILL' 1;">terminal</span>
+</div>
+<div class="flex flex-wrap justify-center gap-8 text-on-surface-variant">
+<a class="hover:text-primary transition-colors" href="#">اتصل بنا</a>
+<a class="hover:text-primary transition-colors" href="#">الشروط والأحكام</a>
+<a class="hover:text-primary transition-colors" href="#">سياسة الخصوصية</a>
+</div>
+<div class="text-on-surface-variant font-label-caps text-label-caps tracking-widest text-center">
+                © ٢٠٢٤ منصة المبرمج المصري - جميع الحقوق محفوظة
+            </div>
+</div>
+</footer>
+<!-- Product Detail Modal (Hidden by default) -->
+<div class="fixed inset-0 z-[100] hidden" id="productModal">
+<div class="modal-overlay absolute inset-0 bg-black/60 backdrop-blur-sm opacity-0" onclick="closeProductModal()"></div>
+<div class="modal-content absolute left-0 top-0 bottom-0 w-full md:w-[500px] bg-surface-container-low border-r border-white/10 shadow-2xl p-8 transform -translate-x-full opacity-0 flex flex-col">
+<div class="flex justify-between items-center mb-8">
+<button class="w-10 h-10 rounded-full hover:bg-white/5 flex items-center justify-center text-on-surface-variant" onclick="closeProductModal()">
+<span class="material-symbols-outlined">close</span>
+</button>
+<span class="px-3 py-1 rounded bg-primary-container/10 border border-primary/20 text-primary font-code-sm text-code-sm" id="modalType">كتاب</span>
+</div>
+<div class="aspect-video rounded-2xl overflow-hidden mb-8 border border-white/5">
+<img class="w-full h-full object-cover" data-alt="A detailed high-angle shot of a premium tech product packaging on a dark workspace. The lighting is cinematic with deep shadows and soft rim lighting on the product edges. The overall vibe is luxury professional educational gear." id="modalImg" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBmGPAQ6oC7feypDV18jzKRMwAdh5FTrJznJNKwBcwq9M8AoroDsBKcVj8TrDUkGk_sLQWMeaiL8IlDyxRzyll41WEfhK0KjlsRmZaEJ4_5oJWwHYACbdy0bDbyjwp0eHegMXqq1OWa7-PEHyQVj2U7ThktawX9loG0Ulhb5OebhPUbuU-KT5ZOQj__s5R9P2EHmfAu-vk42PRm0dJiWEucbtyFLynrsd0pX-X4KMQ6Z-ebGg-jANC-NQ7gkYjzwwtdTvLzMjuHfYM"/>
+</div>
+<h2 class="font-display-lg text-display-lg-mobile text-on-surface mb-4 leading-tight" id="modalTitle">اسم المنتج</h2>
+<div class="mb-8">
+<h4 class="text-on-surface-variant font-bold text-sm mb-2">الوصف</h4>
+<p class="text-on-surface-variant leading-relaxed" id="modalDesc">
+                    وصف تفصيلي للمنتج يوضح أهم المميزات والفوائد التي سيحصل عليها الطالب عند الاقتناء.
+                </p>
+</div>
+<div class="mt-auto border-t border-white/10 pt-8">
+<div class="flex justify-between items-center mb-6">
+<span class="text-on-surface-variant">السعر</span>
+<span class="font-code-sm text-3xl font-bold text-primary" id="modalPrice">000 EGP</span>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<button class="py-4 rounded-xl border border-primary text-primary font-bold hover:bg-primary/5 active:scale-95 transition-all">أضف للسلة</button>
+<button class="py-4 rounded-xl bg-primary text-on-primary font-bold shadow-lg shadow-primary/20 hover:brightness-110 active:scale-95 transition-all">شراء بالمحفظة</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Floating Action Button (FAB) - For Cart Summary on mobile/contextual -->
+<button class="fixed bottom-8 left-8 w-16 h-16 rounded-full bg-primary text-on-primary shadow-2xl flex items-center justify-center group active:scale-90 transition-transform md:hidden">
+<span class="material-symbols-outlined text-3xl">shopping_bag</span>
+<span class="absolute -top-1 -right-1 w-6 h-6 bg-error text-on-error rounded-full text-xs flex items-center justify-center border-2 border-background">2</span>
+</button>
+<script>
+        function openProductModal(title, price, type, desc) {
+            const modal = document.getElementById('productModal');
+            const overlay = modal.querySelector('.modal-overlay');
+            const content = modal.querySelector('.modal-content');
+
+            document.getElementById('modalTitle').textContent = title;
+            document.getElementById('modalPrice').textContent = price;
+            document.getElementById('modalDesc').textContent = desc;
+            
+            const typeEl = document.getElementById('modalType');
+            if(type === 'book') {
+                typeEl.textContent = 'كتاب';
+                typeEl.className = 'px-3 py-1 rounded bg-primary-container/10 border border-primary/20 text-primary font-code-sm text-code-sm';
+            } else if(type === 'notes') {
+                typeEl.textContent = 'مذكرات';
+                typeEl.className = 'px-3 py-1 rounded bg-secondary-container/10 border border-secondary/20 text-secondary font-code-sm text-code-sm';
+            } else {
+                typeEl.textContent = 'مراجع';
+                typeEl.className = 'px-3 py-1 rounded bg-tertiary-container/10 border border-tertiary/20 text-tertiary font-code-sm text-code-sm';
+            }
+
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                overlay.classList.add('opacity-100');
+                content.classList.remove('-translate-x-full', 'opacity-0');
+            }, 10);
+        }
+
+        function closeProductModal() {
+            const modal = document.getElementById('productModal');
+            const overlay = modal.querySelector('.modal-overlay');
+            const content = modal.querySelector('.modal-content');
+
+            overlay.classList.remove('opacity-100');
+            content.classList.add('-translate-x-full', 'opacity-0');
+
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
+        }
+
+        // Search Bar Focus Effect
+        const searchInput = document.querySelector('input[type="text"]');
+        searchInput.addEventListener('focus', () => {
+            searchInput.parentElement.classList.add('neon-glow');
+        });
+        searchInput.addEventListener('blur', () => {
+            searchInput.parentElement.classList.remove('neon-glow');
+        });
+
+        // Sticky Header Transparency
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 20) {
+                header.classList.add('bg-surface-container/95');
+                header.classList.remove('bg-surface-container/80');
+            } else {
+                header.classList.add('bg-surface-container/80');
+                header.classList.remove('bg-surface-container/95');
+            }
+        });
+    </script>
+</body></html>

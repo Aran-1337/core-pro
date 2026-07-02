@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+
+<html class="dark" dir="rtl" lang="ar"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>تفاصيل الكورس | ثانوية بروجرامر</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-tertiary-container": "#6100de",
+                    "primary-fixed": "#b6ebff",
+                    "on-tertiary-fixed-variant": "#5700c9",
+                    "on-surface": "#dfe2eb",
+                    "inverse-primary": "#00677f",
+                    "surface-container": "#1c2026",
+                    "secondary": "#d7ffc5",
+                    "secondary-fixed": "#79ff5b",
+                    "surface-container-highest": "#31353c",
+                    "on-primary": "#003543",
+                    "on-secondary-fixed": "#022100",
+                    "on-primary-container": "#00566a",
+                    "surface-tint": "#47d6ff",
+                    "surface-variant": "#31353c",
+                    "on-tertiary": "#3c0090",
+                    "error": "#ffb4ab",
+                    "secondary-container": "#2ff801",
+                    "surface-dim": "#10141a",
+                    "on-secondary": "#053900",
+                    "on-surface-variant": "#bbc9cf",
+                    "on-secondary-fixed-variant": "#095300",
+                    "tertiary-fixed": "#e9ddff",
+                    "inverse-on-surface": "#2d3137",
+                    "primary-fixed-dim": "#47d6ff",
+                    "background": "#10141a",
+                    "on-primary-fixed-variant": "#004e60",
+                    "on-background": "#dfe2eb",
+                    "primary-container": "#00d2ff",
+                    "surface-container-high": "#262a31",
+                    "tertiary-container": "#ccb6ff",
+                    "tertiary": "#e5d7ff",
+                    "surface-container-lowest": "#0a0e14",
+                    "primary": "#a5e7ff",
+                    "surface-bright": "#353940",
+                    "on-primary-fixed": "#001f28",
+                    "on-error": "#690005",
+                    "error-container": "#93000a",
+                    "on-error-container": "#ffdad6",
+                    "tertiary-fixed-dim": "#d1bcff",
+                    "on-secondary-container": "#0f6d00",
+                    "surface": "#10141a",
+                    "outline-variant": "#3c494e",
+                    "inverse-surface": "#dfe2eb",
+                    "on-tertiary-fixed": "#23005b",
+                    "surface-container-low": "#181c22",
+                    "secondary-fixed-dim": "#2ae500",
+                    "outline": "#859399"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "container-margin": "24px",
+                    "base": "8px",
+                    "section-gap": "64px",
+                    "gutter": "16px"
+            },
+            "fontFamily": {
+                    "display-lg": ["IBM Plex Sans Arabic"],
+                    "display-lg-mobile": ["IBM Plex Sans Arabic"],
+                    "code-sm": ["JetBrains Mono"],
+                    "body-base": ["IBM Plex Sans Arabic"],
+                    "label-caps": ["JetBrains Mono"],
+                    "headline-md": ["IBM Plex Sans Arabic"]
+            },
+            "fontSize": {
+                    "display-lg": ["48px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                    "display-lg-mobile": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                    "code-sm": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                    "body-base": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "label-caps": ["12px", {"lineHeight": "1.0", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                    "headline-md": ["24px", {"lineHeight": "1.4", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #0a0e14;
+            color: #dfe2eb;
+            overflow-x: hidden;
+        }
+        .glass-card {
+            background: rgba(18, 24, 32, 0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .neon-border-glow {
+            box-shadow: 0 0 15px rgba(0, 210, 255, 0.15);
+            border: 1px solid rgba(0, 210, 255, 0.3);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .active-tab {
+            color: #a5e7ff;
+            border-bottom: 2px solid #a5e7ff;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #0a0e14;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #1c2026;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="font-body-base selection:bg-primary-container selection:text-on-primary-container">
+<!-- Top Navigation Bar -->
+<header class="fixed top-0 w-full z-50 border-b border-white/10 bg-surface-container/80 backdrop-blur-xl shadow-[0_0_15px_rgba(0,210,255,0.1)]">
+<nav class="flex flex-row-reverse justify-between items-center px-container-margin w-full max-w-7xl mx-auto h-20">
+<!-- Brand Logo -->
+<div class="flex items-center gap-3">
+<span class="font-display-lg text-display-lg-mobile md:text-display-lg font-bold text-primary">ثانوية بروجرامر</span>
+</div>
+<!-- Nav Links (Desktop) -->
+<div class="hidden md:flex flex-row-reverse items-center gap-8">
+<a class="text-primary border-b-2 border-primary pb-1 font-body-base" href="#">الكورسات</a>
+<a class="text-on-surface-variant hover:text-on-surface transition-colors font-body-base" href="#">المتجر</a>
+<a class="text-on-surface-variant hover:text-on-surface transition-colors font-body-base" href="#">حصص مباشرة</a>
+</div>
+<!-- Actions -->
+<div class="flex items-center gap-4">
+<button class="w-10 h-10 flex items-center justify-center rounded-full bg-white/5 hover:bg-white/10 transition-all">
+<span class="material-symbols-outlined text-primary">account_balance_wallet</span>
+</button>
+<div class="w-10 h-10 rounded-full overflow-hidden border border-primary/30">
+<img class="w-full h-full object-cover" data-alt="A stylized professional portrait of an Egyptian computer science instructor wearing a smart navy blazer, set against a background of glowing blue digital code and geometric UI elements. The lighting is dramatic, high-contrast tech-inspired with neon blue rim light, embodying a high-performance educational aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAOt3gsKqaPNjXQzN9TzaGYbhcYD96C_x8S8x311RSAg1sWh05HVbr5bTKp0wHTqv023_f8VrSQR3yJD5azBQL-8-qvEZMk5GuFWSmNxpWfEV9N7bY22KPXb1bEH3oKT3nfGVjk4l8mGvm9KRSOtigdyTpWf5I2i8sK1QqISoiW50fCHSMdZvUFubkY9lzv1aNJso7O8gEDYuuIc3D5e6ReAAmyq5gmyGw-iUuHyyZ657TggXnbSkfT-TyzRAXDvvw9YVCDLQvhcSQ"/>
+</div>
+</div>
+</nav>
+</header>
+<main class="pt-24 pb-20">
+<!-- Hero Section / Course Banner -->
+<section class="relative w-full h-[400px] md:h-[500px] overflow-hidden">
+
+<div class="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent"></div>
+<div class="relative z-10 max-w-7xl mx-auto px-container-margin h-full flex flex-col justify-end pb-12">
+<div class="flex flex-wrap gap-2 mb-4">
+<span class="bg-primary/10 text-primary px-3 py-1 rounded text-label-caps font-code-sm border border-primary/20">LEVEL: ADVANCED</span>
+<span class="bg-secondary/10 text-secondary px-3 py-1 rounded text-label-caps font-code-sm border border-secondary/20">AI &amp; PYTHON</span>
+</div>
+<h1 class="font-display-lg text-display-lg-mobile md:text-display-lg text-on-surface mb-4 max-w-3xl leading-tight">
+                    احترف برمجة الذكاء الاصطناعي: من الصفر إلى بناء النماذج المتقدمة
+                </h1>
+<div class="flex items-center gap-6 text-on-surface-variant">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">group</span>
+<span class="font-body-base">+١,٢٠٠ طالب ملتحق</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">schedule</span>
+<span class="font-body-base">٤٥ ساعة تعليمية</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Content Grid -->
+<div class="max-w-7xl mx-auto px-container-margin grid grid-cols-1 lg:grid-cols-12 gap-gutter mt-12">
+<!-- Main Content Area (8 Columns) -->
+<div class="lg:col-span-8 space-y-12">
+<!-- Instructor Card -->
+<div class="glass-card p-8 rounded-xl flex flex-col md:flex-row gap-6 items-start">
+<div class="w-24 h-24 rounded-xl overflow-hidden flex-shrink-0 border-2 border-primary/20">
+<img class="w-full h-full object-cover" data-alt="Close-up portrait of a mentor in a high-tech studio environment, surrounded by multiple monitors displaying complex neural network diagrams and Python code. The lighting is cool-toned with electric blue accents, creating a professional and futuristic atmosphere suitable for an elite coding academy." src="https://lh3.googleusercontent.com/aida-public/AB6AXuANCC_ttYS9c7-rgOLnr6tL1z_9KkyoE_SvvK_Xdrb1XuxTW76Gf6StSNaEsxmBi6KSRC4MA7Xe7CBjBY19jcDUCy6AFXsMSZFKZ6T9uWEd0D16t7-YkbG0g4Lpij3x_P1EnTr97SNiNY_PRBR4W4eJh-a2z-NgbZ__dfyk8aDdX970wn5NLXyEkVgRVUaAA6lUZ-IjL6pGShrVWyxrAD8pKZ4JJCs06Ma88ud3xf65Ikxc41QFlixNxSM8Vzb9g_IFo0w8jWUjMM8"/>
+</div>
+<div>
+<h3 class="font-headline-md text-primary mb-2">م. أحمد السيوفي</h3>
+<p class="text-on-surface-variant font-body-base leading-relaxed">
+                            خبير برمجيات متخصص في تعليم علوم الحاسب والذكاء الاصطناعي لطلاب الثانوية. قام بتدريب أكثر من ٥٠٠٠ طالب على لغات البرمجة الحديثة وأسس التفكير المنطقي.
+                        </p>
+</div>
+</div>
+<!-- Course Description -->
+<section>
+<h2 class="font-headline-md text-on-surface mb-6 flex items-center gap-3">
+<span class="w-2 h-8 bg-primary rounded-full"></span>
+                        عن هذا الكورس
+                    </h2>
+<p class="text-on-surface-variant font-body-base leading-relaxed text-lg">
+                        هذا الكورس ليس مجرد دروس فيديو، بل هو رحلة هندسية متكاملة. سنبدأ من أساسيات المنطق البرمجي وصولاً إلى بناء تطبيقات تعتمد على تعلم الآلة. الكورس مصمم خصيصاً لطلاب الثانوية الطموحين الذين يرغبون في دخول سوق العمل أو المنافسات العالمية في البرمجة.
+                    </p>
+</section>
+<!-- Curriculum Accordion -->
+<section>
+<h2 class="font-headline-md text-on-surface mb-6 flex items-center gap-3">
+<span class="w-2 h-8 bg-primary rounded-full"></span>
+                        منهج الكورس
+                    </h2>
+<div class="space-y-4">
+<!-- Module 1 -->
+<div class="glass-card rounded-xl overflow-hidden">
+<button class="w-full p-6 flex justify-between items-center hover:bg-white/5 transition-all" onclick="this.nextElementSibling.classList.toggle('hidden')">
+<div class="flex items-center gap-4">
+<span class="font-code-sm text-primary">01</span>
+<span class="font-headline-md text-on-surface">أساسيات البرمجة بلغة Python</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant">expand_more</span>
+</button>
+<div class="px-6 pb-6 space-y-3">
+<div class="flex items-center justify-between p-3 rounded-lg bg-surface-container-low border border-white/5">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-on-surface-variant text-sm">play_circle</span>
+<span class="font-body-base">مقدمة في بيئة العمل وتثبيت VS Code</span>
+</div>
+<span class="font-code-sm text-on-surface-variant">١٢:٠٠ د</span>
+</div>
+<div class="flex items-center justify-between p-3 rounded-lg bg-surface-container-low border border-white/5">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-on-surface-variant text-sm">play_circle</span>
+<span class="font-body-base">المتغيرات وأنواع البيانات</span>
+</div>
+<span class="font-code-sm text-on-surface-variant">٢٥:٠٠ د</span>
+</div>
+</div>
+</div>
+<!-- Module 2 -->
+<div class="glass-card rounded-xl overflow-hidden border border-primary/20">
+<button class="w-full p-6 flex justify-between items-center bg-primary/5" onclick="this.nextElementSibling.classList.toggle('hidden')">
+<div class="flex items-center gap-4">
+<span class="font-code-sm text-primary">02</span>
+<span class="font-headline-md text-on-surface">مقدمة في الذكاء الاصطناعي</span>
+</div>
+<span class="material-symbols-outlined text-primary">expand_less</span>
+</button>
+<div class="px-6 pb-6 space-y-3 pt-4">
+<div class="flex items-center justify-between p-3 rounded-lg bg-surface-container-low border border-white/5">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-sm">play_circle</span>
+<span class="font-body-base">ما هو التعلم الآلي؟ (Machine Learning)</span>
+</div>
+<span class="font-code-sm text-on-surface-variant">٤٥:٠٠ د</span>
+</div>
+<div class="flex items-center justify-between p-3 rounded-lg bg-surface-container-low border border-white/5">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-on-surface-variant text-sm">lock</span>
+<span class="font-body-base">بناء أول نموذج لتوقع الأسعار</span>
+</div>
+<span class="font-code-sm text-on-surface-variant">٦٠:٠٠ د</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Sidebar (4 Columns) -->
+<aside class="lg:col-span-4">
+<div class="sticky top-28 space-y-6">
+<!-- Pricing Card -->
+<div class="glass-card p-8 rounded-2xl neon-border-glow border-primary/40 relative overflow-hidden">
+<div class="absolute -top-12 -right-12 w-24 h-24 bg-primary/10 blur-3xl rounded-full"></div>
+<div class="mb-6">
+<span class="text-label-caps font-code-sm text-primary bg-primary/10 px-3 py-1 rounded-full">سعر خاص لفترة محدودة</span>
+</div>
+<div class="flex items-baseline gap-2 mb-8">
+<span class="font-code-sm text-display-lg text-primary">١,٥٠٠</span>
+<span class="font-body-base text-on-surface-variant">جنية مصري</span>
+</div>
+<ul class="space-y-4 mb-10">
+<li class="flex items-center gap-3 text-on-surface">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="font-body-base">وصول مدى الحياة للمحتوى</span>
+</li>
+<li class="flex items-center gap-3 text-on-surface">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="font-body-base">شهادة إتمام معتمدة</span>
+</li>
+<li class="flex items-center gap-3 text-on-surface">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="font-body-base">دعم فني مباشر مع المهندس</span>
+</li>
+</ul>
+<button class="w-full py-4 bg-primary text-on-primary font-display-lg-mobile rounded-xl font-bold hover:scale-[0.98] transition-transform flex items-center justify-center gap-3 shadow-[0_0_20px_rgba(0,210,255,0.3)]">
+<span class="material-symbols-outlined">account_balance_wallet</span>
+                            اشترِ الآن بمحفظتك
+                        </button>
+</div>
+<!-- Tech Terminal Info -->
+<div class="bg-surface-container-lowest rounded-xl border border-white/5 p-6 font-code-sm">
+<div class="flex items-center gap-2 mb-4">
+<div class="w-3 h-3 rounded-full bg-[#ff5f56]"></div>
+<div class="w-3 h-3 rounded-full bg-[#ffbd2e]"></div>
+<div class="w-3 h-3 rounded-full bg-[#27c93f]"></div>
+</div>
+<div class="space-y-2 text-primary/80">
+<p>&gt; $ status: registration_open</p>
+<p>&gt; $ students_enrolled: 1245</p>
+<p>&gt; $ next_live_session: Saturday 8PM</p>
+</div>
+</div>
+</div>
+</aside>
+</div>
+<!-- Reviews Section -->
+<section class="max-w-7xl mx-auto px-container-margin mt-section-gap">
+<h2 class="font-headline-md text-on-surface mb-8 flex items-center gap-3">
+<span class="w-2 h-8 bg-secondary rounded-full"></span>
+                آراء الطلاب المبدعين
+            </h2>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Review 1 -->
+<div class="glass-card p-6 rounded-xl border-l-4 border-l-primary">
+<div class="flex items-center gap-3 mb-4">
+<div class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center font-bold text-primary">ع</div>
+<div>
+<p class="font-body-base font-bold">عمر خالد</p>
+<div class="flex text-secondary scale-75 origin-right">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+</div>
+</div>
+<p class="text-on-surface-variant italic font-body-base">
+                        "أفضل كورس برمجة أخذته في حياتي. الشرح مبسط جداً والمشاريع العملية خلتني أفهم يعني إيه ذكاء اصطناعي بجد."
+                    </p>
+</div>
+<!-- Review 2 -->
+<div class="glass-card p-6 rounded-xl border-l-4 border-l-secondary">
+<div class="flex items-center gap-3 mb-4">
+<div class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center font-bold text-secondary">س</div>
+<div>
+<p class="font-body-base font-bold">سارة محمود</p>
+<div class="flex text-secondary scale-75 origin-right">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+</div>
+</div>
+<p class="text-on-surface-variant italic font-body-base">
+                        "المهندس أحمد عبقري في توصيل المعلومة. المحفظة سهلت عليا جداً عملية الدفع والاشتراك."
+                    </p>
+</div>
+<!-- Review 3 -->
+<div class="glass-card p-6 rounded-xl border-l-4 border-l-primary">
+<div class="flex items-center gap-3 mb-4">
+<div class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center font-bold text-primary">ي</div>
+<div>
+<p class="font-body-base font-bold">ياسين إبراهيم</p>
+<div class="flex text-secondary scale-75 origin-right">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined">star_half</span>
+</div>
+</div>
+</div>
+<p class="text-on-surface-variant italic font-body-base">
+                        "كورس قوي جداً. التمارين البرمجية في نهاية كل فصل هي اللي بتصنع الفارق فعلاً."
+                    </p>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full mt-section-gap border-t border-white/5 bg-surface-container-lowest">
+<div class="flex flex-col items-center py-16 px-container-margin gap-8 w-full">
+<div class="font-display-lg text-display-lg-mobile text-primary">ثانوية بروجرامر</div>
+<div class="flex gap-8">
+<a class="text-on-surface-variant hover:text-primary transition-colors font-body-base" href="#">اتصل بنا</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-body-base" href="#">الشروط والأحكام</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-body-base" href="#">سياسة الخصوصية</a>
+</div>
+<p class="text-on-surface-variant text-label-caps font-code-sm">
+                © ٢٠٢٤ منصة المبرمج المصري - جميع الحقوق محفوظة
+            </p>
+</div>
+</footer>
+<!-- Mobile Navigation Shell (Bottom) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full bg-surface-container/95 backdrop-blur-xl border-t border-white/5 z-50 flex justify-around py-3">
+<a class="flex flex-col items-center gap-1 text-primary" href="#">
+<span class="material-symbols-outlined">school</span>
+<span class="text-[10px] font-bold">الكورسات</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">shopping_cart</span>
+<span class="text-[10px] font-bold">المتجر</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">live_tv</span>
+<span class="text-[10px] font-bold">مباشر</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="text-[10px] font-bold">حسابي</span>
+</a>
+</nav>
+<script>
+        // Micro-interactions for buttons
+        document.querySelectorAll('button').forEach(button => {
+            button.addEventListener('mousedown', () => {
+                button.classList.add('scale-95');
+            });
+            button.addEventListener('mouseup', () => {
+                button.classList.remove('scale-95');
+            });
+            button.addEventListener('mouseleave', () => {</script></body></html>

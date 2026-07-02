@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+
+<html class="dark" dir="rtl" lang="ar"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ثانوية بروجرامر | حصص البث المباشر</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;600;700&amp;family=JetBrains+Mono:wght@400;700&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@100..900&amp;family=JetBrains+Mono:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-tertiary-container": "#6100de",
+                    "primary-fixed": "#b6ebff",
+                    "on-tertiary-fixed-variant": "#5700c9",
+                    "on-surface": "#dfe2eb",
+                    "inverse-primary": "#00677f",
+                    "surface-container": "#1c2026",
+                    "secondary": "#d7ffc5",
+                    "secondary-fixed": "#79ff5b",
+                    "surface-container-highest": "#31353c",
+                    "on-primary": "#003543",
+                    "on-secondary-fixed": "#022100",
+                    "on-primary-container": "#00566a",
+                    "surface-tint": "#47d6ff",
+                    "surface-variant": "#31353c",
+                    "on-tertiary": "#3c0090",
+                    "error": "#ffb4ab",
+                    "secondary-container": "#2ff801",
+                    "surface-dim": "#10141a",
+                    "on-secondary": "#053900",
+                    "on-surface-variant": "#bbc9cf",
+                    "on-secondary-fixed-variant": "#095300",
+                    "tertiary-fixed": "#e9ddff",
+                    "inverse-on-surface": "#2d3137",
+                    "primary-fixed-dim": "#47d6ff",
+                    "background": "#10141a",
+                    "on-primary-fixed-variant": "#004e60",
+                    "on-background": "#dfe2eb",
+                    "primary-container": "#00d2ff",
+                    "surface-container-high": "#262a31",
+                    "tertiary-container": "#ccb6ff",
+                    "tertiary": "#e5d7ff",
+                    "surface-container-lowest": "#0a0e14",
+                    "primary": "#a5e7ff",
+                    "surface-bright": "#353940",
+                    "on-primary-fixed": "#001f28",
+                    "on-error": "#690005",
+                    "error-container": "#93000a",
+                    "on-error-container": "#ffdad6",
+                    "tertiary-fixed-dim": "#d1bcff",
+                    "on-secondary-container": "#0f6d00",
+                    "surface": "#10141a",
+                    "outline-variant": "#3c494e",
+                    "inverse-surface": "#dfe2eb",
+                    "on-tertiary-fixed": "#23005b",
+                    "surface-container-low": "#181c22",
+                    "secondary-fixed-dim": "#2ae500",
+                    "outline": "#859399"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "container-margin": "24px",
+                    "base": "8px",
+                    "section-gap": "64px",
+                    "gutter": "16px"
+            },
+            "fontFamily": {
+                    "display-lg": ["IBM Plex Sans Arabic"],
+                    "display-lg-mobile": ["IBM Plex Sans Arabic"],
+                    "code-sm": ["JetBrains Mono"],
+                    "body-base": ["IBM Plex Sans Arabic"],
+                    "label-caps": ["JetBrains Mono"],
+                    "headline-md": ["IBM Plex Sans Arabic"]
+            },
+            "fontSize": {
+                    "display-lg": ["48px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                    "display-lg-mobile": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                    "code-sm": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                    "body-base": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "label-caps": ["12px", {"lineHeight": "1.0", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                    "headline-md": ["24px", {"lineHeight": "1.4", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #0a0e14;
+            color: #dfe2eb;
+            overflow-x: hidden;
+        }
+        .glass-card {
+            background: rgba(18, 24, 32, 0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .glass-card:hover {
+            border-color: rgba(0, 210, 255, 0.3);
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px -10px rgba(0, 210, 255, 0.15);
+        }
+        .neon-glow {
+            box-shadow: 0 0 15px rgba(0, 210, 255, 0.3);
+        }
+        .tab-active {
+            color: #00d2ff;
+            position: relative;
+        }
+        .tab-active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #00d2ff;
+            box-shadow: 0 0 10px #00d2ff;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .scanline {
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(to right, transparent, rgba(0, 210, 255, 0.2), transparent);
+            position: absolute;
+            animation: scan 4s linear infinite;
+            z-index: 10;
+        }
+        @keyframes scan {
+            0% { top: 0; }
+            100% { top: 100%; }
+        }
+    </style>
+</head>
+<body class="font-body-base selection:bg-primary-container selection:text-on-primary-container">
+<!-- TopNavBar -->
+<header class="fixed top-0 w-full z-50 border-b border-white/10 bg-surface-container/80 backdrop-blur-xl shadow-[0_0_15px_rgba(0,210,255,0.1)] h-20">
+<div class="flex flex-row-reverse justify-between items-center px-container-margin w-full max-w-7xl mx-auto h-full">
+<div class="flex items-center gap-4">
+<span class="font-display-lg text-display-lg-mobile md:text-display-lg font-bold text-primary">ثانوية بروجرامر</span>
+</div>
+<nav class="hidden md:flex flex-row-reverse items-center gap-8">
+<a class="text-on-surface-variant hover:text-on-surface transition-colors font-body-base" href="#">المتجر</a>
+<a class="text-on-surface-variant hover:text-on-surface transition-colors font-body-base" href="#">الكورسات</a>
+<a class="text-primary border-b-2 border-primary pb-1 font-body-base" href="#">حصص مباشرة</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="p-2 hover:bg-white/5 rounded-full transition-all duration-300 text-primary">
+<span class="material-symbols-outlined">account_balance_wallet</span>
+</button>
+<div class="w-10 h-10 rounded-full border-2 border-primary/30 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A professional studio portrait of a young Egyptian student wearing modern tech-inspired streetwear, illuminated by cool blue and cyan rim lighting against a dark, minimalist laboratory background. High-end digital photography style, sharp focus on eyes, cyber-tech aesthetic with a cinematic mood." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA3Xs9i4I5Ge5FJSYl2-VP5zgYi39D_hojAkmKkEBpPZxfHrZ0ScPKMb9fL2bsBzTFXxQRtDiMekk7GDphHsE1SjMOpboPX_FWnP5mkUQQ-AsA2JokuEs8IFaP_mATs3glQFttjbE1YyS7GtIm4y-MqOUhfbStjMaPxSgkZWBHTD2zgF-eT-1LWSInWEiCdWq9AguClRsrw9Ky-7iYy_580ujAgos2w3l6OLy4aBq8zpzyWJ6Hc2Lwo5vUNt2I3OPEwlEHZAlydRpQ"/>
+</div>
+</div>
+</div>
+</header>
+<main class="pt-32 pb- section-gap px-container-margin max-w-7xl mx-auto min-h-screen">
+<!-- Header Section -->
+<div class="relative mb-12 text-right">
+
+<div class="inline-block px-3 py-1 mb-4 bg-primary/10 border border-primary/20 rounded-lg">
+<span class="font-label-caps text-label-caps text-primary uppercase tracking-widest">Live Operations</span>
+</div>
+<h1 class="font-display-lg text-display-lg-mobile md:text-display-lg text-on-surface mb-4">حصص البث المباشر</h1>
+<p class="text-on-surface-variant max-w-2xl font-body-base leading-relaxed">
+                تفاعل مباشرة مع نخبة مهندسي البرمجيات. اطرح أسئلتك، وشارك في حل التحديات البرمجية في الوقت الفعلي.
+            </p>
+</div>
+<!-- Tabs Navigation -->
+<div class="flex gap-8 border-b border-white/5 mb-12 overflow-x-auto no-scrollbar">
+<button class="tab-active py-4 font-headline-md whitespace-nowrap transition-all duration-300" id="tab-private" onclick="switchTab('private')">
+                حصص زووم خاصة
+            </button>
+<button class="text-on-surface-variant hover:text-on-surface py-4 font-headline-md whitespace-nowrap transition-all duration-300" id="tab-review" onclick="switchTab('review')">
+                حصص المراجعة
+            </button>
+</div>
+<!-- Lessons Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter" id="lessons-container">
+<!-- Card 1 -->
+<div class="glass-card rounded-xl p-6 relative overflow-hidden flex flex-col h-full">
+<div class="scanline"></div>
+<div class="flex justify-between items-start mb-6">
+<div class="bg-error/10 text-error px-3 py-1 rounded-md border border-error/20 flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">error</span>
+<span class="font-label-caps text-label-caps">مقاعد محدودة</span>
+</div>
+<div class="text-right">
+<span class="font-code-sm text-code-sm text-primary">LVL: ADVANCED</span>
+</div>
+</div>
+<h3 class="font-headline-md text-on-surface mb-2">هياكل البيانات والزميات</h3>
+<div class="flex items-center gap-3 mb-6">
+<div class="w-8 h-8 rounded-full overflow-hidden border border-white/10">
+<img class="w-full h-full object-cover" data-alt="Close-up professional portrait of a tech instructor with a focused expression, wearing glasses and a dark hoodie, set against a background of glowing code terminals and soft blue ambient light. Tactical academic aesthetic, high detail, cinematic lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCZN7iq3mcdl2Prw8qQPscXZ-Ro_pMmupjRceaE58PforKin4pmASz0DrcQj6Lfe0IZdqsrbdsSFTjDGJ2CAmDHqcXtJY8JBsKCmaLuAXO0HXQuSZIV5-wAsGCK6sOcRoI1Wni-DPr5AZ8lt9OVMSSoPS5b4oa5vglIKOL6DAcMRHY3u1PDTKLfjNLgM5MlTKeM7CFit3PemOF1ZZvbScymJlE3NcCtjM5vwu1pwUZT8GPHNifc_2CvlclLXLnIm43wsT-3gqJV04w"/>
+</div>
+<span class="text-on-surface-variant font-body-base">م. أحمد كمال</span>
+</div>
+<div class="space-y-3 mb-8">
+<div class="flex items-center gap-3 text-on-surface-variant">
+<span class="material-symbols-outlined text-primary">calendar_today</span>
+<span class="font-body-base">الإثنين، 15 مايو</span>
+</div>
+<div class="flex items-center gap-3 text-on-surface-variant">
+<span class="material-symbols-outlined text-primary">schedule</span>
+<span class="font-body-base">08:00 مساءً (GMT+2)</span>
+</div>
+</div>
+<div class="mt-auto pt-6 border-t border-white/5 flex items-center justify-between">
+<div class="text-right">
+<span class="font-label-caps text-label-caps text-on-surface-variant block">سعر الحصة</span>
+<div class="flex items-baseline gap-1">
+<span class="font-code-sm text-display-lg-mobile text-primary">150</span>
+<span class="text-on-surface-variant font-body-base">EGP</span>
+</div>
+</div>
+<button class="bg-primary text-on-primary font-label-caps text-label-caps px-6 py-3 rounded-lg hover:brightness-110 active:scale-95 transition-all neon-glow">
+                        احجز الآن من المحفظة
+                    </button>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="glass-card rounded-xl p-6 relative overflow-hidden flex flex-col h-full">
+<div class="flex justify-between items-start mb-6">
+<div class="bg-secondary/10 text-secondary px-3 py-1 rounded-md border border-secondary/20 flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">group</span>
+<span class="font-label-caps text-label-caps">12 مقعد متبقي</span>
+</div>
+<div class="text-right">
+<span class="font-code-sm text-code-sm text-primary">LVL: INTERMEDIATE</span>
+</div>
+</div>
+<h3 class="font-headline-md text-on-surface mb-2">أساسيات الـ Backend بـ Python</h3>
+<div class="flex items-center gap-3 mb-6">
+<div class="w-8 h-8 rounded-full overflow-hidden border border-white/10">
+<img class="w-full h-full object-cover" data-alt="A portrait of a software engineer woman instructor in a modern tech office setting, soft futuristic lighting with turquoise accents, wearing professional tech apparel. The vibe is serious yet approachable, high resolution digital art style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB-7eE31eq5XInvCOcSk2p6EtXY1hkd1dLlUNatvsj9CkQySzjiJHoh2tSogKw3LvL8v2-cvK2ERRpktum-Dgtwc9uBIpRgOWOiRq4t1t9D4uQpYdEeVc_OKV9M3d15aWcRDuHJ95NDTotkSW2U0y0k_UNibf5f-2mf5m3W3EOZ3m5Ph0-uE6BDqCf6HojIbyQjF6e4moe-R_cjPkItIkCgSh-ddjrqKzFJCyMyp1YXZO1VlY4NIuDJidUFtdG1VNbAXDX_-PC-xRA"/>
+</div>
+<span class="text-on-surface-variant font-body-base">م. سارة علي</span>
+</div>
+<div class="space-y-3 mb-8">
+<div class="flex items-center gap-3 text-on-surface-variant">
+<span class="material-symbols-outlined text-primary">calendar_today</span>
+<span class="font-body-base">الأربعاء، 17 مايو</span>
+</div>
+<div class="flex items-center gap-3 text-on-surface-variant">
+<span class="material-symbols-outlined text-primary">schedule</span>
+<span class="font-body-base">06:00 مساءً (GMT+2)</span>
+</div>
+</div>
+<div class="mt-auto pt-6 border-t border-white/5 flex items-center justify-between">
+<div class="text-right">
+<span class="font-label-caps text-label-caps text-on-surface-variant block">سعر الحصة</span>
+<div class="flex items-baseline gap-1">
+<span class="font-code-sm text-display-lg-mobile text-primary">120</span>
+<span class="text-on-surface-variant font-body-base">EGP</span>
+</div>
+</div>
+<button class="bg-primary text-on-primary font-label-caps text-label-caps px-6 py-3 rounded-lg hover:brightness-110 active:scale-95 transition-all neon-glow">
+                        احجز الآن من المحفظة
+                    </button>
+</div>
+</div>
+<!-- Card 3 (Coming Soon/Featured) -->
+<div class="glass-card rounded-xl p-6 relative overflow-hidden flex flex-col h-full bg-gradient-to-br from-surface-container to-primary/5">
+<div class="absolute top-0 left-0 w-24 h-24 bg-primary/20 blur-3xl rounded-full"></div>
+<div class="flex justify-between items-start mb-6">
+<div class="bg-primary/20 text-primary px-3 py-1 rounded-md border border-primary/30 flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label-caps text-label-caps">جلسة حصرية</span>
+</div>
+<div class="text-right">
+<span class="font-code-sm text-code-sm text-primary">MASTERCLASS</span>
+</div>
+</div>
+<h3 class="font-headline-md text-on-surface mb-2">بناء الذكاء الاصطناعي التوليدي</h3>
+<div class="flex items-center gap-3 mb-6">
+<div class="w-8 h-8 rounded-full overflow-hidden border border-white/10">
+<img class="w-full h-full object-cover" data-alt="A senior technology expert with a short beard and futuristic glasses, looking directly at the camera. Cinematic portrait lighting with neon cyan and deep indigo tones, professional photography, blurred background of server racks." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCTMJraXTKl9uSLHD4eJl1Rq6-HgRIEoiczc3oiT35ks9NbDt_ixk2xseSD_fBwOjDwgMNSrMGipQ8rwtBWoBMgvlzFhe13LbB6PwoAf4A4KEFtVHvovNTzQYLEWCB-sefY1zF2SD-3xjNEtJtNzKquyFxsgxTlCsLp3FFu8ogMDKPa3IBP1A0GCnOvJ7QItamL6GJekbkzquFoxrZpxfs_8LWthu9NdwmhWP7Qsmx6SSTjv8OlBRMm-t1uNz2zt5Kz_LajeOq9DiE"/>
+</div>
+<span class="text-on-surface-variant font-body-base">د. ياسر محمود</span>
+</div>
+<div class="space-y-3 mb-8">
+<div class="flex items-center gap-3 text-on-surface-variant">
+<span class="material-symbols-outlined text-primary">calendar_today</span>
+<span class="font-body-base">السبت، 20 مايو</span>
+</div>
+<div class="flex items-center gap-3 text-on-surface-variant">
+<span class="material-symbols-outlined text-primary">schedule</span>
+<span class="font-body-base">10:00 مساءً (GMT+2)</span>
+</div>
+</div>
+<div class="mt-auto pt-6 border-t border-white/5 flex items-center justify-between">
+<div class="text-right">
+<span class="font-label-caps text-label-caps text-on-surface-variant block">سعر الحصة</span>
+<div class="flex items-baseline gap-1">
+<span class="font-code-sm text-display-lg-mobile text-primary">300</span>
+<span class="text-on-surface-variant font-body-base">EGP</span>
+</div>
+</div>
+<button class="bg-primary text-on-primary font-label-caps text-label-caps px-6 py-3 rounded-lg hover:brightness-110 active:scale-95 transition-all neon-glow">
+                        احجز الآن من المحفظة
+                    </button>
+</div>
+</div>
+</div>
+<!-- Review Lessons View (Hidden by default) -->
+<div class="hidden grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter" id="review-container">
+<!-- Example Review Card -->
+<div class="glass-card rounded-xl p-6 relative overflow-hidden flex flex-col h-full border-secondary/20">
+<div class="flex justify-between items-start mb-6">
+<div class="bg-secondary/10 text-secondary px-3 py-1 rounded-md border border-secondary/20 flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">verified</span>
+<span class="font-label-caps text-label-caps">مراجعة ليلة الامتحان</span>
+</div>
+<div class="text-right">
+<span class="font-code-sm text-code-sm text-secondary">FINAL REVIEW</span>
+</div>
+</div>
+<h3 class="font-headline-md text-on-surface mb-2">مراجعة شاملة لأساسيات البرمجة</h3>
+<div class="flex items-center gap-3 mb-6">
+<div class="w-8 h-8 rounded-full overflow-hidden border border-white/10">
+<img class="w-full h-full object-cover" data-alt="Portrait of an experienced teacher in a professional setting, holding a digital stylus, warm amber lighting contrasting with cold blue screen glow. High resolution, professional commercial photography style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBLMMM8eigJ2Ikrs2VQ8WH4ZUSEHqsa9bynuJ8L0lW80XNV39r2Sv0HaPVFAN_sWb-f79yC8btcZar_u4DlsqEsb2S4UGuv4mDBzb1INsqR2Ba7XyAyk7ze4qpEIFzhim3CwA3lxs-aznQSuupDYSuEu_ywsD0auGRQ_jzFQWkvBNMfgzbtOpO3PLojH8otRROZYgDLu61xSk5MgZRJIdC6BVwMBBDI1MVzWE-4D9AiErRUvo7XC3Vx8GEgKwx5OopnQVXhKwnbWAg"/>
+</div>
+<span class="text-on-surface-variant font-body-base">م. محمد إبراهيم</span>
+</div>
+<div class="space-y-3 mb-8">
+<div class="flex items-center gap-3 text-on-surface-variant">
+<span class="material-symbols-outlined text-secondary">event_available</span>
+<span class="font-body-base">الجمعة، 26 مايو</span>
+</div>
+<div class="flex items-center gap-3 text-on-surface-variant">
+<span class="material-symbols-outlined text-secondary">history</span>
+<span class="font-body-base">مدة المراجعة: 4 ساعات</span>
+</div>
+</div>
+<div class="mt-auto pt-6 border-t border-white/5 flex items-center justify-between">
+<div class="text-right">
+<span class="font-label-caps text-label-caps text-on-surface-variant block">سعر المراجعة</span>
+<div class="flex items-baseline gap-1">
+<span class="font-code-sm text-display-lg-mobile text-secondary">200</span>
+<span class="text-on-surface-variant font-body-base">EGP</span>
+</div>
+</div>
+<button class="bg-secondary text-on-secondary font-label-caps text-label-caps px-6 py-3 rounded-lg hover:brightness-110 active:scale-95 transition-all shadow-[0_0_15px_rgba(42,229,0,0.2)]">
+                        احجز مقعدك الآن
+                    </button>
+</div>
+</div>
+<!-- Duplicate for grid visual -->
+<div class="glass-card rounded-xl p-6 flex flex-col h-full bg-surface-container/40 opacity-60 border-dashed border-white/10">
+<div class="flex flex-col items-center justify-center h-64 gap-4">
+<span class="material-symbols-outlined text-4xl text-on-surface-variant">event_note</span>
+<p class="text-on-surface-variant font-body-base">سيتم الإعلان عن المزيد قريباً</p>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="w-full mt-section-gap border-t border-white/5 bg-surface-container-lowest">
+<div class="flex flex-col items-center py-16 px-container-margin gap-8 w-full max-w-7xl mx-auto">
+<span class="font-display-lg text-display-lg-mobile text-primary">ثانوية بروجرامر</span>
+<div class="flex flex-wrap justify-center gap-8">
+<a class="text-on-surface-variant hover:text-primary transition-colors font-label-caps uppercase" href="#">اتصل بنا</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-label-caps uppercase" href="#">الشروط والأحكام</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-label-caps uppercase" href="#">سياسة الخصوصية</a>
+</div>
+<p class="text-on-surface-variant font-body-base text-center">© ٢٠٢٤ منصة المبرمج المصري - جميع الحقوق محفوظة</p>
+</div>
+</footer>
+<script>
+        function switchTab(tab) {
+            const privateBtn = document.getElementById('tab-private');
+            const reviewBtn = document.getElementById('tab-review');
+            const privateContent = document.getElementById('lessons-container');
+            const reviewContent = document.getElementById('review-container');
+
+            if (tab === 'private') {
+                privateBtn.className = 'tab-active py-4 font-headline-md whitespace-nowrap transition-all duration-300';
+                reviewBtn.className = 'text-on-surface-variant hover:text-on-surface py-4 font-headline-md whitespace-nowrap transition-all duration-300';
+                privateContent.classList.remove('hidden');
+                privateContent.classList.add('grid');
+                reviewContent.classList.add('hidden');
+                reviewContent.classList.remove('grid');
+            } else {
+                reviewBtn.className = 'tab-active py-4 font-headline-md whitespace-nowrap transition-all duration-300';
+                privateBtn.className = 'text-on-surface-variant hover:text-on-surface py-4 font-headline-md whitespace-nowrap transition-all duration-300';
+                reviewContent.classList.remove('hidden');
+                reviewContent.classList.add('grid');
+                privateContent.classList.add('hidden');
+                privateContent.classList.remove('grid');
+            }
+        }
+
+        // Add some interaction to cards on mouse movement
+        document.querySelectorAll('.glass-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                card.style.setProperty('--mouse-x', `${x}px`);
+                card.style.setProperty('--mouse-y', `${y}px`);
+            });
+        });
+    </script>
+</body></html>

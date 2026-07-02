@@ -1,0 +1,128 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-primary: #a5e7ff;
+  --color-on-primary: #003543;
+  --color-primary-container: #00d2ff;
+  --color-on-primary-container: #00566a;
+  --color-inverse-primary: #00677f;
+  --color-primary-fixed: #b6ebff;
+  --color-primary-fixed-dim: #47d6ff;
+  --color-on-primary-fixed: #001f28;
+  --color-on-primary-fixed-variant: #004e60;
+
+  --color-secondary: #d7ffc5;
+  --color-on-secondary: #053900;
+  --color-secondary-container: #2ff801;
+  --color-on-secondary-container: #0f6d00;
+  --color-secondary-fixed: #79ff5b;
+  --color-secondary-fixed-dim: #2ae500;
+  --color-on-secondary-fixed: #022100;
+  --color-on-secondary-fixed-variant: #095300;
+
+  --color-tertiary: #e5d7ff;
+  --color-on-tertiary: #3c0090;
+  --color-tertiary-container: #ccb6ff;
+  --color-on-tertiary-container: #6100de;
+  --color-tertiary-fixed: #e9ddff;
+  --color-tertiary-fixed-dim: #d1bcff;
+  --color-on-tertiary-fixed: #23005b;
+  --color-on-tertiary-fixed-variant: #5700c9;
+
+  --color-error: #ffb4ab;
+  --color-on-error: #690005;
+  --color-error-container: #93000a;
+  --color-on-error-container: #ffdad6;
+
+  --color-background: #10141a;
+  --color-on-background: #dfe2eb;
+  --color-surface: #10141a;
+  --color-on-surface: #dfe2eb;
+  --color-surface-variant: #31353c;
+  --color-on-surface-variant: #bbc9cf;
+  --color-inverse-surface: #dfe2eb;
+  --color-inverse-on-surface: #2d3137;
+  --color-surface-tint: #47d6ff;
+  
+  --color-surface-dim: #10141a;
+  --color-surface-bright: #353940;
+  --color-surface-container-lowest: #0a0e14;
+  --color-surface-container-low: #181c22;
+  --color-surface-container: #1c2026;
+  --color-surface-container-high: #262a31;
+  --color-surface-container-highest: #31353c;
+  
+  --color-outline: #859399;
+  --color-outline-variant: #3c494e;
+
+  --spacing-container-margin: 24px;
+  --spacing-base: 8px;
+  --spacing-section-gap: 64px;
+  --spacing-gutter: 16px;
+  
+  --font-display-lg: "IBM Plex Sans Arabic", sans-serif;
+  --font-display-lg-mobile: "IBM Plex Sans Arabic", sans-serif;
+  --font-code-sm: "JetBrains Mono", monospace;
+  --font-body-base: "IBM Plex Sans Arabic", sans-serif;
+  --font-label-caps: "JetBrains Mono", monospace;
+  --font-headline-md: "IBM Plex Sans Arabic", sans-serif;
+
+  /* Font sizes are usually not strictly defined as variables in tailwind v4, but since v4 we map them */
+  --text-display-lg: 48px;
+  --text-display-lg--line-height: 1.2;
+  --text-display-lg--font-weight: 700;
+
+  --text-display-lg-mobile: 32px;
+  --text-display-lg-mobile--line-height: 1.2;
+  --text-display-lg-mobile--font-weight: 700;
+
+  --text-code-sm: 14px;
+  --text-code-sm--line-height: 1.5;
+  --text-code-sm--font-weight: 400;
+
+  --text-body-base: 16px;
+  --text-body-base--line-height: 1.6;
+  --text-body-base--font-weight: 400;
+
+  --text-label-caps: 12px;
+  --text-label-caps--line-height: 1.0;
+  --text-label-caps--font-weight: 700;
+  --text-label-caps--letter-spacing: 0.05em;
+
+  --text-headline-md: 24px;
+  --text-headline-md--line-height: 1.4;
+  --text-headline-md--font-weight: 600;
+}
+
+body {
+  background-color: var(--color-background);
+  color: var(--color-on-surface);
+  font-family: var(--font-body-base);
+  overflow-x: hidden;
+}
+
+.glass-card {
+  background: rgba(18, 24, 32, 0.8);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.interactive-card:hover {
+  border-color: rgba(0, 210, 255, 0.3);
+  box-shadow: 0 0 15px rgba(0, 210, 255, 0.1);
+}
+
+.neon-glow-green {
+  box-shadow: 0 0 15px rgba(47, 248, 1, 0.2);
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+}

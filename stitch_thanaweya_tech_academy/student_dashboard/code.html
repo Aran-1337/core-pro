@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+
+<html class="dark" dir="rtl" lang="ar"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ثانوية بروجرامر | لوحة تحكم الطالب</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        :root {
+            --primary: #00d2ff;
+            --surface-container-lowest: #0a0e14;
+        }
+        body {
+            background-color: #0a0e14;
+            color: #dfe2eb;
+            font-family: 'IBM Plex Sans Arabic', sans-serif;
+            overflow-x: hidden;
+        }
+        .glass-card {
+            background: rgba(18, 24, 32, 0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .interactive-card:hover {
+            border-color: rgba(0, 210, 255, 0.3);
+            box-shadow: 0 0 15px rgba(0, 210, 255, 0.1);
+        }
+        .neon-glow-green {
+            box-shadow: 0 0 15px rgba(47, 248, 1, 0.2);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+    </style>
+<!-- Tailwind Config Hook -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-tertiary-container": "#6100de",
+                    "primary-fixed": "#b6ebff",
+                    "on-tertiary-fixed-variant": "#5700c9",
+                    "on-surface": "#dfe2eb",
+                    "inverse-primary": "#00677f",
+                    "surface-container": "#1c2026",
+                    "secondary": "#d7ffc5",
+                    "secondary-fixed": "#79ff5b",
+                    "surface-container-highest": "#31353c",
+                    "on-primary": "#003543",
+                    "on-secondary-fixed": "#022100",
+                    "on-primary-container": "#00566a",
+                    "surface-tint": "#47d6ff",
+                    "surface-variant": "#31353c",
+                    "on-tertiary": "#3c0090",
+                    "error": "#ffb4ab",
+                    "secondary-container": "#2ff801",
+                    "surface-dim": "#10141a",
+                    "on-secondary": "#053900",
+                    "on-surface-variant": "#bbc9cf",
+                    "on-secondary-fixed-variant": "#095300",
+                    "tertiary-fixed": "#e9ddff",
+                    "inverse-on-surface": "#2d3137",
+                    "primary-fixed-dim": "#47d6ff",
+                    "background": "#10141a",
+                    "on-primary-fixed-variant": "#004e60",
+                    "on-background": "#dfe2eb",
+                    "primary-container": "#00d2ff",
+                    "surface-container-high": "#262a31",
+                    "tertiary-container": "#ccb6ff",
+                    "tertiary": "#e5d7ff",
+                    "surface-container-lowest": "#0a0e14",
+                    "primary": "#a5e7ff",
+                    "surface-bright": "#353940",
+                    "on-primary-fixed": "#001f28",
+                    "on-error": "#690005",
+                    "error-container": "#93000a",
+                    "on-error-container": "#ffdad6",
+                    "tertiary-fixed-dim": "#d1bcff",
+                    "on-secondary-container": "#0f6d00",
+                    "surface": "#10141a",
+                    "outline-variant": "#3c494e",
+                    "inverse-surface": "#dfe2eb",
+                    "on-tertiary-fixed": "#23005b",
+                    "surface-container-low": "#181c22",
+                    "secondary-fixed-dim": "#2ae500",
+                    "outline": "#859399"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "container-margin": "24px",
+                    "base": "8px",
+                    "section-gap": "64px",
+                    "gutter": "16px"
+            },
+            "fontFamily": {
+                    "display-lg": ["IBM Plex Sans Arabic"],
+                    "display-lg-mobile": ["IBM Plex Sans Arabic"],
+                    "code-sm": ["JetBrains Mono"],
+                    "body-base": ["IBM Plex Sans Arabic"],
+                    "label-caps": ["JetBrains Mono"],
+                    "headline-md": ["IBM Plex Sans Arabic"]
+            },
+            "fontSize": {
+                    "display-lg": ["48px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                    "display-lg-mobile": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                    "code-sm": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                    "body-base": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "label-caps": ["12px", {"lineHeight": "1.0", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                    "headline-md": ["24px", {"lineHeight": "1.4", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+</head>
+<body class="bg-background text-on-surface custom-scrollbar">
+<!-- Top Navigation Shell -->
+<nav class="fixed top-0 w-full z-50 border-b border-white/10 bg-surface-container/80 backdrop-blur-xl shadow-[0_0_15px_rgba(0,210,255,0.1)]">
+<div class="flex flex-row-reverse justify-between items-center px-container-margin w-full max-w-7xl mx-auto h-20">
+<!-- Brand Logo -->
+<div class="flex items-center gap-3">
+<span class="font-display-lg text-display-lg-mobile md:text-display-lg font-bold text-primary">ثانوية بروجرامر</span>
+</div>
+<!-- Navigation Links (Desktop) -->
+<div class="hidden md:flex flex-row-reverse items-center gap-8">
+<a class="font-body-base text-on-surface-variant hover:text-on-surface transition-colors" href="#">الكورسات</a>
+<a class="font-body-base text-on-surface-variant hover:text-on-surface transition-colors" href="#">المتجر</a>
+<a class="font-body-base text-on-surface-variant hover:text-on-surface transition-colors" href="#">حصص مباشرة</a>
+</div>
+<!-- Actions -->
+<div class="flex items-center gap-4">
+<button class="p-2 rounded-full hover:bg-white/5 transition-all text-primary">
+<span class="material-symbols-outlined" data-icon="account_balance_wallet">account_balance_wallet</span>
+</button>
+<div class="w-10 h-10 rounded-full overflow-hidden border-2 border-primary/20">
+<img class="w-full h-full object-cover" data-alt="A cinematic, high-detail portrait of a young Egyptian student using professional headphones, looking focused and determined in a dark developer workspace. The background is filled with glowing blue computer code and holographic interfaces, creating a tactical tech atmosphere with deep shadows and vibrant cyan highlights." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDXsgppD2bKoI-gmLPJALP-0nLtcOoa1dhpX0H9H21eGrqNU3jDtzfvHR_HzHglVEE5V3Cqsl_9jf6qRwqWSkahGMMTzYmVYkOmsoYNNRX23tG2duQf6BLjyv507flma-lErs1pMULdR5-g-XUCNphYHr5Ro-UFUrXTqOZFVbB0hy9botoKVVB6ohz2SX77OWZKziq9B-X5M8Ij-IDfOX69wBgKLjdRSmfqkm6paN__oMLsK1xvXgNNJgXgmy5aqbP3CdP8ZnR8f0o"/>
+</div>
+</div>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="pt-32 pb-16 px-container-margin w-full max-w-7xl mx-auto min-h-screen">
+<!-- Welcome & Wallet Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter items-stretch mb-12">
+<!-- User Welcome -->
+<div class="lg:col-span-8 flex flex-col justify-center">
+<span class="font-label-caps text-primary mb-2">مرحباً بك مجدداً، أحمد</span>
+<h1 class="font-display-lg text-display-lg-mobile md:text-display-lg text-on-surface mb-4">جاهز للتحول إلى مهندس محترف؟</h1>
+<p class="font-body-base text-on-surface-variant max-w-xl">استمر في رحلتك التعليمية اليوم وكن جزءاً من نخبة المبرمجين في مصر. نقاطك الحالية تؤهلك لفتح تحديات المستوى المتقدم.</p>
+</div>
+<!-- Wallet Card (Prominent) -->
+<div class="lg:col-span-4 glass-card rounded-xl p-8 relative overflow-hidden group border-primary/20 border-2">
+<div class="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-primary/5 to-transparent opacity-50"></div>
+<div class="relative z-10">
+<div class="flex justify-between items-start mb-8">
+<span class="material-symbols-outlined text-primary text-4xl" data-icon="account_balance_wallet">account_balance_wallet</span>
+<span class="font-label-caps text-on-surface-variant">رصيد المحفظة</span>
+</div>
+<div class="mb-8">
+<div class="flex items-baseline gap-2">
+<span class="font-code-sm text-display-lg-mobile md:text-display-lg font-bold text-on-surface">500</span>
+<span class="font-body-base text-on-surface-variant">جنيه</span>
+</div>
+</div>
+<button class="w-full bg-secondary-container text-on-secondary-container py-3 rounded-lg font-bold font-body-base flex items-center justify-center gap-2 transition-all hover:scale-[1.02] neon-glow-green active:scale-95">
+<span class="material-symbols-outlined" data-icon="add_circle" style="font-variation-settings: 'FILL' 1;">add_circle</span>
+                        شحن الرصيد
+                    </button>
+</div>
+<!-- Subtle background decorative element -->
+<div class="absolute -bottom-8 -right-8 w-32 h-32 bg-primary/10 rounded-full blur-3xl"></div>
+</div>
+</div>
+<!-- Section: Quick Links Bento -->
+<div class="mb-section-gap grid grid-cols-2 md:grid-cols-3 gap-gutter">
+<a class="glass-card interactive-card rounded-xl p-6 flex flex-col items-center gap-3 text-center transition-all" href="#">
+<span class="material-symbols-outlined text-primary text-3xl" data-icon="shopping_bag">shopping_bag</span>
+<span class="font-headline-md text-on-surface">المتجر</span>
+</a>
+<a class="glass-card interactive-card rounded-xl p-6 flex flex-col items-center gap-3 text-center transition-all" href="#">
+<span class="material-symbols-outlined text-primary text-3xl" data-icon="school">school</span>
+<span class="font-headline-md text-on-surface">كل الكورسات</span>
+</a>
+<a class="glass-card interactive-card rounded-xl p-6 flex flex-col items-center gap-3 text-center transition-all" href="#">
+<span class="material-symbols-outlined text-primary text-3xl" data-icon="list_alt">list_alt</span>
+<span class="font-headline-md text-on-surface">طلباتي</span>
+</a>
+</div>
+<!-- Section: Learning & Sessions -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-section-gap">
+<!-- Continue Learning -->
+<div class="lg:col-span-7">
+<div class="flex items-center justify-between mb-8">
+<h2 class="font-headline-md text-on-surface border-r-4 border-primary pr-4">استكمل التعلم</h2>
+<a class="font-label-caps text-primary hover:underline" href="#">عرض الكل</a>
+</div>
+<div class="space-y-gutter">
+<!-- Progress Card 1 -->
+<div class="glass-card rounded-xl p-6 group cursor-pointer hover:bg-surface-container-high transition-all">
+<div class="flex items-start gap-4 mb-4">
+<div class="w-16 h-16 rounded-lg bg-surface-container-highest flex items-center justify-center border border-white/10 shrink-0">
+<span class="material-symbols-outlined text-primary text-3xl" data-icon="terminal">terminal</span>
+</div>
+<div class="flex-grow">
+<div class="flex justify-between items-start mb-1">
+<h3 class="font-body-base font-bold text-on-surface">مبادئ بايثون (Python Basics)</h3>
+<span class="font-code-sm text-primary">65%</span>
+</div>
+<span class="font-label-caps text-on-surface-variant">LEVEL: INTERMEDIATE</span>
+</div>
+</div>
+<div class="h-2 bg-surface-container-lowest rounded-full overflow-hidden">
+<div class="h-full bg-primary shadow-[0_0_10px_rgba(0,210,255,0.5)] transition-all duration-1000" style="width: 65%"></div>
+</div>
+</div>
+<!-- Progress Card 2 -->
+<div class="glass-card rounded-xl p-6 group cursor-pointer hover:bg-surface-container-high transition-all">
+<div class="flex items-start gap-4 mb-4">
+<div class="w-16 h-16 rounded-lg bg-surface-container-highest flex items-center justify-center border border-white/10 shrink-0">
+<span class="material-symbols-outlined text-primary text-3xl" data-icon="psychology">psychology</span>
+</div>
+<div class="flex-grow">
+<div class="flex justify-between items-start mb-1">
+<h3 class="font-body-base font-bold text-on-surface">الذكاء الاصطناعي (AI &amp; Logic)</h3>
+<span class="font-code-sm text-primary">20%</span>
+</div>
+<span class="font-label-caps text-on-surface-variant">LEVEL: BEGINNER</span>
+</div>
+</div>
+<div class="h-2 bg-surface-container-lowest rounded-full overflow-hidden">
+<div class="h-full bg-primary shadow-[0_0_10px_rgba(0,210,255,0.5)] transition-all duration-1000" style="width: 20%"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Upcoming Live Sessions Widget -->
+<div class="lg:col-span-5">
+<div class="flex items-center justify-between mb-8">
+<h2 class="font-headline-md text-on-surface border-r-4 border-secondary pr-4">حصص مباشرة قادمة</h2>
+</div>
+<div class="glass-card rounded-xl overflow-hidden">
+<div class="p-6 border-b border-white/5 bg-white/2">
+<div class="flex items-center gap-3">
+<span class="w-3 h-3 bg-error rounded-full animate-pulse"></span>
+<span class="font-label-caps text-error">مباشر الآن</span>
+</div>
+</div>
+<div class="p-6 space-y-6">
+<!-- Session 1 -->
+<div class="flex items-center gap-4 group">
+<div class="flex flex-col items-center justify-center w-14 h-14 rounded-lg bg-surface-container-lowest border border-white/5">
+<span class="font-code-sm font-bold text-on-surface">22</span>
+<span class="font-label-caps text-primary text-[10px]">MAY</span>
+</div>
+<div class="flex-grow">
+<h4 class="font-body-base font-bold text-on-surface group-hover:text-primary transition-colors">مراجعة خوارزميات البحث</h4>
+<p class="font-label-caps text-on-surface-variant">08:00 PM • Zoom Meeting</p>
+</div>
+<button class="bg-primary text-on-primary-container px-4 py-2 rounded-lg font-bold font-code-sm hover:scale-105 transition-transform active:scale-95">انضم</button>
+</div>
+<!-- Session 2 -->
+<div class="flex items-center gap-4 opacity-60">
+<div class="flex flex-col items-center justify-center w-14 h-14 rounded-lg bg-surface-container-lowest border border-white/5">
+<span class="font-code-sm font-bold text-on-surface">25</span>
+<span class="font-label-caps text-on-surface-variant text-[10px]">MAY</span>
+</div>
+<div class="flex-grow">
+<h4 class="font-body-base font-bold text-on-surface">تطبيقات عملية بالذكاء الاصطناعي</h4>
+<p class="font-label-caps text-on-surface-variant">10:30 PM • Zoom Meeting</p>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="lock">lock</span>
+</div>
+</div>
+<!-- Atmospheric background shader element -->
+<div class="h-32 relative">
+
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest to-transparent"></div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="w-full mt-section-gap bg-surface-container-lowest border-t border-white/5">
+<div class="flex flex-col items-center py-16 px-container-margin gap-8 w-full max-w-7xl mx-auto">
+<span class="font-display-lg text-display-lg-mobile text-primary">ثانوية بروجرامر</span>
+<div class="flex gap-8">
+<a class="font-label-caps text-on-surface-variant hover:text-primary transition-colors" href="#">اتصل بنا</a>
+<a class="font-label-caps text-on-surface-variant hover:text-primary transition-colors" href="#">الشروط والأحكام</a>
+<a class="font-label-caps text-on-surface-variant hover:text-primary transition-colors" href="#">سياسة الخصوصية</a>
+</div>
+<p class="font-body-base text-on-surface-variant text-center">© ٢٠٢٤ منصة المبرمج المصري - جميع الحقوق محفوظة</p>
+</div>
+</footer>
+<!-- Interactive Layer: Ambient Glow -->
+<div class="fixed top-0 left-0 w-full h-full pointer-events-none z-[-1] overflow-hidden">
+<div class="absolute top-[10%] right-[-5%] w-[40vw] h-[40vw] bg-primary/10 rounded-full blur-[120px]"></div>
+<div class="absolute bottom-[20%] left-[-10%] w-[30vw] h-[30vw] bg-secondary/5 rounded-full blur-[100px]"></div>
+</div>
+<script>
+        // Micro-interactions for dashboard elements
+        document.querySelectorAll('.interactive-card').forEach(card => {
+            card.addEventListener('mousedown', () => {
+                card.style.transform = 'scale(0.98)';
+            });
+            card.addEventListener('mouseup', () => {
+                card.style.transform = 'scale(1)';
+            });
+        });
+
+        // Simple animation on progress bars entry
+        window.addEventListener('DOMContentLoaded', () => {
+            const bars = document.querySelectorAll('.h-full.bg-primary');
+            bars.forEach(bar => {
+                const finalWidth = bar.style.width;
+                bar.style.width = '0%';
+                setTimeout(() => {
+                    bar.style.width = finalWidth;
+                }, 500);
+            });
+        });
+    </script>
+</body></html>

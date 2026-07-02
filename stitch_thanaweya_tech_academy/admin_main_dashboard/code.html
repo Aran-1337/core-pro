@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+
+<html class="dark" dir="rtl" lang="ar"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ثانوية بروجرامر | لوحة التحكم</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            line-height: 1;
+            text-transform: none;
+            letter-spacing: normal;
+            word-wrap: normal;
+            white-space: nowrap;
+            direction: ltr;
+        }
+        
+        .glass-card {
+            background: #121820;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+        }
+
+        .interactive-card:hover {
+            border-color: rgba(0, 210, 255, 0.3);
+            box-shadow: 0 0 15px rgba(0, 210, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .neo-glow-text {
+            text-shadow: 0 0 10px rgba(165, 231, 255, 0.5);
+        }
+
+        .terminal-header::before {
+            content: "";
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            background: #ff5f56;
+            border-radius: 50%;
+            margin-left: 6px;
+            box-shadow: 18px 0 0 #ffbd2e, 36px 0 0 #27c93f;
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0a0e14;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1c2026;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #00d2ff;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-fixed": "#022100",
+                        "on-secondary-fixed-variant": "#095300",
+                        "on-primary-fixed": "#001f28",
+                        "on-error-container": "#ffdad6",
+                        "inverse-surface": "#dfe2eb",
+                        "surface-tint": "#47d6ff",
+                        "inverse-primary": "#00677f",
+                        "surface-container-lowest": "#0a0e14",
+                        "secondary-container": "#2ff801",
+                        "on-tertiary": "#3c0090",
+                        "inverse-on-surface": "#2d3137",
+                        "on-primary-fixed-variant": "#004e60",
+                        "tertiary-fixed-dim": "#d1bcff",
+                        "primary": "#a5e7ff",
+                        "on-primary-container": "#00566a",
+                        "error": "#ffb4ab",
+                        "on-secondary-container": "#0f6d00",
+                        "primary-container": "#00d2ff",
+                        "on-tertiary-fixed-variant": "#5700c9",
+                        "on-error": "#690005",
+                        "tertiary-container": "#ccb6ff",
+                        "surface-dim": "#10141a",
+                        "secondary-fixed-dim": "#2ae500",
+                        "surface-container-highest": "#31353c",
+                        "surface-container": "#1c2026",
+                        "on-surface": "#dfe2eb",
+                        "on-tertiary-container": "#6100de",
+                        "surface-variant": "#31353c",
+                        "secondary": "#d7ffc5",
+                        "primary-fixed": "#b6ebff",
+                        "error-container": "#93000a",
+                        "background": "#10141a",
+                        "outline-variant": "#3c494e",
+                        "outline": "#859399",
+                        "on-secondary": "#053900",
+                        "tertiary": "#e5d7ff",
+                        "secondary-fixed": "#79ff5b",
+                        "surface": "#10141a",
+                        "on-tertiary-fixed": "#23005b",
+                        "tertiary-fixed": "#e9ddff",
+                        "primary-fixed-dim": "#47d6ff",
+                        "on-primary": "#003543",
+                        "surface-container-high": "#262a31",
+                        "on-background": "#dfe2eb",
+                        "on-surface-variant": "#bbc9cf",
+                        "surface-container-low": "#181c22",
+                        "surface-bright": "#353940"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "base": "8px",
+                        "section-gap": "64px",
+                        "gutter": "16px",
+                        "container-margin": "24px"
+                    },
+                    "fontFamily": {
+                        "label-caps": ["JetBrains Mono"],
+                        "display-lg": ["IBM Plex Sans Arabic"],
+                        "body-base": ["IBM Plex Sans Arabic"],
+                        "code-sm": ["JetBrains Mono"],
+                        "headline-md": ["IBM Plex Sans Arabic"],
+                        "display-lg-mobile": ["IBM Plex Sans Arabic"]
+                    },
+                    "fontSize": {
+                        "label-caps": ["12px", {"lineHeight": "1.0", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                        "display-lg": ["48px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                        "body-base": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "code-sm": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "headline-md": ["24px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                        "display-lg-mobile": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background text-on-surface font-body-base selection:bg-primary-container selection:text-on-primary-container overflow-x-hidden">
+<!-- Header / TopNavBar -->
+<header class="fixed top-0 w-full z-50 border-b border-white/10 bg-surface-container/80 backdrop-blur-xl shadow-[0_0_15px_rgba(0,210,255,0.1)]">
+<div class="flex flex-row-reverse justify-between items-center px-container-margin w-full max-w-7xl mx-auto h-20">
+<div class="flex items-center gap-4">
+<span class="font-display-lg text-display-lg-mobile font-bold text-primary">ثانوية بروجرامر</span>
+<span class="bg-primary/10 text-primary px-3 py-1 rounded-full text-label-caps font-label-caps border border-primary/20">ADMIN_SHELL_V2</span>
+</div>
+<nav class="hidden md:flex flex-row-reverse gap-8">
+<a class="text-primary border-b-2 border-primary pb-1 font-medium" href="#">نظرة عامة</a>
+<a class="text-on-surface-variant hover:text-on-surface transition-colors font-medium" href="#">الإدارة</a>
+<a class="text-on-surface-variant hover:text-on-surface transition-colors font-medium" href="#">التقارير المالية</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="w-10 h-10 rounded-lg flex items-center justify-center hover:bg-white/5 transition-all text-on-surface-variant">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="flex items-center gap-3 bg-surface-container-high p-1.5 pr-4 rounded-full border border-white/5">
+<div class="text-left leading-none">
+<div class="font-bold text-sm text-on-surface">م. أحمد علي</div>
+<div class="text-[10px] text-primary/70 font-label-caps uppercase">System Root</div>
+</div>
+<div class="w-8 h-8 rounded-full overflow-hidden border border-primary/30">
+<img class="w-full h-full object-cover" data-alt="A professional close-up portrait of a tech-savvy Egyptian administrator in his 30s. He has a focused expression, wearing a minimalist dark tactical hoodie. The lighting is dramatic cinematic blue and teal neon, reflecting a high-performance software engineering environment with digital code overlays in the background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDG6abqs141JWGxbw1vmbOfkrjCcxY97UBk7VhdKC4g7h35tX1xRlZUH1ydfIQen9IMG-n1ZLhDUFsOfxAiq-V5i1PKnaWLYfWv7K-cpxY8tDeqH-LLD7eBGBjn0Yfflz38z0A59F0eyD7cfG8BsmlyUMfnEeqkhMFoqkD-kZYfEcw9Dx_nO11mWIt0s2SeglKugH_PPX-AQCdAdvS-I3siGBNCOmEX0kwZLUHW1OqCfwSaMMzCNi_XtajBGAQg930Pcc9NV3LCoXs"/>
+</div>
+</div>
+</div>
+</div>
+</header>
+<main class="pt-28 pb-12 px-container-margin max-w-7xl mx-auto">
+<!-- KPI Dashboard Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+<!-- KPI 1: Students -->
+<div class="glass-card p-6 rounded-xl flex flex-col justify-between interactive-card transition-all duration-300">
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 bg-primary/10 rounded-lg">
+<span class="material-symbols-outlined text-primary">groups</span>
+</div>
+<span class="text-secondary text-xs font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-xs">trending_up</span>
+                        +١٢٪
+                    </span>
+</div>
+<div>
+<div class="text-on-surface-variant text-sm font-medium mb-1">إجمالي الطلاب</div>
+<div class="text-3xl font-bold font-label-caps text-on-surface">١٢,٤٥٠</div>
+</div>
+</div>
+<!-- KPI 2: Revenue -->
+<div class="glass-card p-6 rounded-xl flex flex-col justify-between interactive-card transition-all duration-300 border-r-2 border-r-primary-container">
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 bg-primary-container/20 rounded-lg">
+<span class="material-symbols-outlined text-primary-container">payments</span>
+</div>
+<span class="text-secondary text-xs font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-xs">trending_up</span>
+                        +٨٪
+                    </span>
+</div>
+<div>
+<div class="text-on-surface-variant text-sm font-medium mb-1">إجمالي الأرباح (EGP)</div>
+<div class="text-3xl font-bold font-label-caps text-on-surface">٨٤٢,٠٠٠</div>
+</div>
+</div>
+<!-- KPI 3: Courses -->
+<div class="glass-card p-6 rounded-xl flex flex-col justify-between interactive-card transition-all duration-300">
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 bg-tertiary/10 rounded-lg">
+<span class="material-symbols-outlined text-tertiary">menu_book</span>
+</div>
+<div class="text-on-surface-variant text-xs">نشط حالياً</div>
+</div>
+<div>
+<div class="text-on-surface-variant text-sm font-medium mb-1">الكورسات المتاحة</div>
+<div class="text-3xl font-bold font-label-caps text-on-surface">٤٨</div>
+</div>
+</div>
+<!-- KPI 4: Pending Orders -->
+<div class="glass-card p-6 rounded-xl flex flex-col justify-between interactive-card transition-all duration-300">
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 bg-error/10 rounded-lg">
+<span class="material-symbols-outlined text-error">shopping_cart_checkout</span>
+</div>
+<span class="flex h-2 w-2 rounded-full bg-error animate-pulse"></span>
+</div>
+<div>
+<div class="text-on-surface-variant text-sm font-medium mb-1">طلبات الشراء المعلقة</div>
+<div class="text-3xl font-bold font-label-caps text-on-surface">١٥٦</div>
+</div>
+</div>
+</div>
+<!-- Main Section Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+<!-- Sidebar: Navigation/Quick Access -->
+<aside class="lg:col-span-3 flex flex-col gap-4">
+<h3 class="text-on-surface-variant font-bold text-xs uppercase tracking-widest px-2 mb-2">التحكم السريع</h3>
+<a class="group flex items-center justify-between p-4 glass-card rounded-xl border-r-4 border-r-primary interactive-card transition-all" href="#">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary group-hover:scale-110 transition-transform">school</span>
+<span class="font-medium text-on-surface">إدارة المحاضرين</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant text-sm">chevron_left</span>
+</a>
+<a class="group flex items-center justify-between p-4 glass-card rounded-xl interactive-card transition-all" href="#">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors">auto_stories</span>
+<span class="font-medium text-on-surface">إدارة الكورسات</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant text-sm">chevron_left</span>
+</a>
+<a class="group flex items-center justify-between p-4 glass-card rounded-xl interactive-card transition-all" href="#">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors">storefront</span>
+<span class="font-medium text-on-surface">منتجات المتجر</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant text-sm">chevron_left</span>
+</a>
+<a class="group flex items-center justify-between p-4 glass-card rounded-xl interactive-card transition-all" href="#">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors">live_tv</span>
+<span class="font-medium text-on-surface">الحصص المباشرة</span>
+</div>
+<span class="bg-error text-on-error px-2 py-0.5 rounded text-[10px] font-bold">LIVE</span>
+</a>
+<a class="group flex items-center justify-between p-4 glass-card rounded-xl interactive-card transition-all" href="#">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors">account_balance_wallet</span>
+<span class="font-medium text-on-surface">تقارير المحفظة</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant text-sm">chevron_left</span>
+</a>
+<!-- Terminal-style log -->
+<div class="mt-4 glass-card rounded-xl overflow-hidden border border-white/5">
+<div class="bg-surface-container-high px-3 py-2 flex items-center terminal-header">
+<span class="text-[10px] font-code-sm text-on-surface-variant mr-12 uppercase tracking-tighter">System_Log</span>
+</div>
+<div class="p-4 font-code-sm text-code-sm bg-[#05070a] min-h-[150px]">
+<div class="text-secondary/80 mb-1 leading-relaxed">&gt; Admin session started...</div>
+<div class="text-on-surface-variant mb-1 leading-relaxed">&gt; Backup completed: 04:00 AM</div>
+<div class="text-primary/80 mb-1 leading-relaxed">&gt; New enrollment: Student #9422</div>
+<div class="text-error/80 mb-1 leading-relaxed">&gt; Unauthorized access attempt blocked [IP: 192.168.1.1]</div>
+<div class="animate-pulse inline-block w-2 h-4 bg-primary ml-1 align-middle"></div>
+</div>
+</div>
+</aside>
+<!-- Main Content: Charts & Lists -->
+<div class="lg:col-span-9 space-y-8">
+<!-- Revenue Chart Simulation -->
+<div class="glass-card rounded-2xl p-8 relative overflow-hidden">
+<div class="flex justify-between items-center mb-8 relative z-10">
+<div>
+<h2 class="text-xl font-bold text-on-surface mb-1">نمو الأرباح الشهرية</h2>
+<p class="text-on-surface-variant text-sm">تحليل مالي للربع الحالي من عام ٢٠٢٤</p>
+</div>
+<div class="flex gap-2">
+<button class="bg-surface-container-high px-4 py-1.5 rounded-lg text-xs font-bold border border-white/10 hover:bg-white/5 transition-all">٣٠ يوم</button>
+<button class="bg-primary text-on-primary px-4 py-1.5 rounded-lg text-xs font-bold hover:opacity-90 transition-all">٩٠ يوم</button>
+</div>
+</div>
+<div class="h-64 w-full relative">
+
+<!-- Simulated Chart SVG -->
+<svg class="w-full h-full text-primary drop-shadow-[0_0_10px_rgba(0,210,255,0.3)]" viewbox="0 0 800 200">
+<defs>
+<lineargradient id="chartGradient" x1="0" x2="0" y1="0" y2="1">
+<stop offset="0%" stop-color="currentColor" stop-opacity="0.3"></stop>
+<stop offset="100%" stop-color="currentColor" stop-opacity="0"></stop>
+</lineargradient>
+</defs>
+<path d="M0,180 Q100,160 200,100 T400,120 T600,40 T800,60" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="3"></path>
+<path d="M0,180 Q100,160 200,100 T400,120 T600,40 T800,60 V200 H0 Z" fill="url(#chartGradient)"></path>
+<!-- Dots -->
+<circle cx="200" cy="100" fill="currentColor" r="4"></circle>
+<circle cx="400" cy="120" fill="currentColor" r="4"></circle>
+<circle cx="600" cy="40" fill="currentColor" r="4"></circle>
+</svg>
+<div class="absolute bottom-0 w-full flex justify-between px-2 text-[10px] font-code-sm text-on-surface-variant">
+<span>JAN</span><span>FEB</span><span>MAR</span><span>APR</span><span>MAY</span><span>JUN</span>
+</div>
+</div>
+</div>
+<!-- Bottom Section: Top Instructors & Live Status -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<!-- Top Instructors List -->
+<div class="glass-card rounded-2xl p-6">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-bold text-lg text-on-surface">أفضل المحاضرين أداءً</h3>
+<button class="text-primary text-xs font-bold hover:underline">عرض الكل</button>
+</div>
+<div class="space-y-5">
+<!-- Instructor Item 1 -->
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 rounded-xl border border-white/10 overflow-hidden relative group">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a charismatic male instructor in his late 20s. He has a modern, clean-shaved look and is wearing a dark tech-style polo shirt. The background is a blurred high-tech studio with soft blue ambient lighting and electronic hardware. Professional portrait photography style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD1ekj9232UfwRqzZk2jpfsmWtVYj393DDJAGJCLa1ZQOss4B_lBo8TLObwYQ0nvSAs0q65Wh4iTUzxwCWRwMl9LLlDBeYNjdxh8xJUX99YIB1Jd9an_UemH8XktjzCHSzjxegPKKADdkItbd8jUsWuX26YGE9MSz_tHQeN-Vjl-TQRlj9kLy0hJN-JUG5iMWlKC6juHfOKpXDK0ZYEzafwIqoHpuB_6YcBVpUBCUCUpvxs_MIbBskh-B9WMiTzEUF1tTsWP8Q7wKk"/>
+<div class="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+</div>
+<div>
+<div class="font-bold text-sm text-on-surface">د. محمود حسن</div>
+<div class="text-xs text-on-surface-variant">هندسة البرمجيات</div>
+</div>
+</div>
+<div class="text-left">
+<div class="font-label-caps text-xs text-primary">٩٨.٥٪</div>
+<div class="text-[10px] text-on-surface-variant">رضا الطلاب</div>
+</div>
+</div>
+<!-- Instructor Item 2 -->
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 rounded-xl border border-white/10 overflow-hidden relative">
+<img class="w-full h-full object-cover" data-alt="A portrait of a young female educator with glasses, smiling confidently. She has a professional and approachable look, wearing a sleek black blazer. The setting is a minimalist workspace with soft neon accents and a holographic display. Cyber-tech aesthetic with sharp focus." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD4qzXdRhFmQ4GVK1DbY7rQyHZV7ElrmRFyvrXw_mTlkdvYWhO5GUQq1Ukh9Eq9buW1r1wPYhOofVAcrK-bcYs4Aw22yvYaSL18CP1KkAnxxnUmhf8rO8Y68g9Dej5IpEhoLMBRO3RBQcGsFCGVU4ruzfAORzrI6F5hJmhPesbiR0vKsVCAtSLfnfG1xa-d0oSgPedpglmukRdfHz6ax4TNFIZahjamLfMtSSYa74-me6q8zn2xon1z4DaHJuJXMcXQ5b-XSxC9vsQ"/>
+</div>
+<div>
+<div class="font-bold text-sm text-on-surface">م. سارة إبراهيم</div>
+<div class="text-xs text-on-surface-variant">تطوير الويب</div>
+</div>
+</div>
+<div class="text-left">
+<div class="font-label-caps text-xs text-primary">٩٦.٢٪</div>
+<div class="text-[10px] text-on-surface-variant">رضا الطلاب</div>
+</div>
+</div>
+<!-- Instructor Item 3 -->
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 rounded-xl border border-white/10 overflow-hidden relative">
+<img class="w-full h-full object-cover" data-alt="A sharp portrait of a male computer science professor in his 40s. He has a wise, authoritative look, wearing a dark turtleneck. The lighting is low-key with a focus on his face, against a background of dimly lit high-end servers and fiber-optic cables. High-contrast tactical academic style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuASg8eHWVzlLU5GpZC10glpK8WlXFCmtUnVDq_nPR7hdkvYA_pV5YpS95N1I5yjnqBpxnl9o1IlDaaAV-YjO6RAELo5jjk6zi5fL_zp5iyEBjuzIWWwd8KNGNp1XvVMcG0y5_k8TUsvsuB2YrUFNIjbO8qYu7R-68Ya5G-lQT4fnZknLrdH-JMJ3uMIgybhtMkP_3Vvld-7r5iRHjj_Bd5hHzeKATI4nU4iBstfR09DSH7Y-53ykt3rzJNeBW54xxcfD9xWrrqzN80"/>
+</div>
+<div>
+<div class="font-bold text-sm text-on-surface">د. كمال يحيى</div>
+<div class="text-xs text-on-surface-variant">ذكاء اصطناعي</div>
+</div>
+</div>
+<div class="text-left">
+<div class="font-label-caps text-xs text-primary">٩٥.٨٪</div>
+<div class="text-[10px] text-on-surface-variant">رضا الطلاب</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Live Sessions Status -->
+<div class="glass-card rounded-2xl p-6 relative overflow-hidden">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-bold text-lg text-on-surface">الحصص المباشرة الآن</h3>
+<div class="flex items-center gap-2">
+<span class="h-2 w-2 rounded-full bg-error animate-pulse"></span>
+<span class="text-error text-xs font-bold">بث مباشر</span>
+</div>
+</div>
+<div class="space-y-4">
+<div class="bg-surface-container-low border border-white/5 p-4 rounded-xl relative">
+<div class="flex justify-between items-start mb-2">
+<span class="text-on-surface font-bold text-sm">مقدمة في لغة بايثون - المستوى الأول</span>
+<span class="text-[10px] font-code-sm bg-white/5 px-2 py-1 rounded">242 مشاهداً</span>
+</div>
+<div class="w-full bg-surface-container-highest h-1 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[65%] shadow-[0_0_8px_rgba(0,210,255,0.5)]"></div>
+</div>
+<div class="flex justify-between mt-2 text-[10px] text-on-surface-variant">
+<span>المتبقي: ١٥ دقيقة</span>
+<span>م. أحمد علي</span>
+</div>
+</div>
+<div class="p-4 rounded-xl border border-dashed border-white/10 flex flex-col items-center justify-center py-8 text-center">
+<span class="material-symbols-outlined text-3xl text-on-surface-variant mb-2 opacity-30">upcoming</span>
+<p class="text-on-surface-variant text-sm font-medium">الحصة القادمة: هيكلة البيانات</p>
+<p class="text-[10px] text-primary mt-1 font-label-caps">تبدأ خلال: ٠١:٤٥:٠٠</p>
+</div>
+</div>
+<!-- Abstract graphic background -->
+<div class="absolute -bottom-10 -left-10 w-40 h-40 bg-primary/5 rounded-full blur-3xl"></div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<footer class="w-full mt-section-gap border-t border-white/5 bg-surface-container-lowest">
+<div class="flex flex-col items-center py-16 px-container-margin gap-8 w-full">
+<div class="flex items-center gap-4">
+<span class="font-display-lg text-display-lg-mobile text-primary font-bold">ثانوية بروجرامر</span>
+<div class="h-6 w-[1px] bg-white/10"></div>
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors cursor-pointer">share</span>
+<span class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors cursor-pointer">mail</span>
+</div>
+</div>
+<nav class="flex gap-10">
+<a class="text-on-surface-variant hover:text-primary transition-colors text-sm font-medium" href="#">اتصل بنا</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors text-sm font-medium" href="#">الشروط والأحكام</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors text-sm font-medium" href="#">سياسة الخصوصية</a>
+</nav>
+<p class="text-on-surface-variant text-sm font-body-base opacity-60">© ٢٠٢٤ منصة المبرمج المصري - جميع الحقوق محفوظة</p>
+</div>
+</footer>
+<!-- Micro-interaction Scripts -->
+<script>
+        document.querySelectorAll('.interactive-card').forEach(card => {
+            card.addEventListener('mousedown', () => {
+                card.style.transform = 'scale(0.98)';
+            });
+            card.addEventListener('mouseup', () => {
+                card.style.transform = 'scale(1.02)';
+                setTimeout(() => {
+                    card.style.transform = 'scale(1)';
+                }, 100);
+            });
+        });
+
+        // Simple real-time effect for the terminal logs
+        const terminal = document.querySelector('.font-code-sm.text-code-sm');
+        const logs = [
+            "> Initializing neural network parameters...",
+            "> Security sweep: No threats detected.",
+            "> Payment gateway heartbeat: OK",
+            "> Syncing instructor schedules...",
+            "> Resource allocation optimized."
+        ];
+        let logIndex = 0;
+
+        setInterval(() => {
+            if (Math.random() > 0.7) {
+                const newLog = document.createElement('div');
+                newLog.className = 'text-primary/50 mb-1 leading-relaxed animate-pulse';
+                newLog.innerText = logs[logIndex % logs.length];
+                terminal.insertBefore(newLog, terminal.firstChild);
+                logIndex++;
+                if (terminal.children.length > 8) {
+                    terminal.removeChild(terminal.lastChild);
+                }
+            }
+        }, 4000);
+    </script>
+</body></html>
