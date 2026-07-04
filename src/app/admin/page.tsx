@@ -85,7 +85,7 @@ export default function AdminDashboardPage() {
           const now = new Date();
           
           // Data for 90 days (Last 6 months)
-          const monthsData = [];
+          const monthsData: any[] = [];
           for (let i = 5; i >= 0; i--) {
             const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
             const monthName = d.toLocaleString('en-US', { month: 'short' }).toUpperCase();
