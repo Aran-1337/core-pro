@@ -54,6 +54,7 @@ export interface Book {
   image_url?: string;
   price_digital: number;
   price_physical: number;
+  original_price?: number;
   format: 'DIGITAL' | 'PHYSICAL' | 'BOTH';
   is_published: boolean;
   created_at: string;
