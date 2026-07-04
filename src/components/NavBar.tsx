@@ -203,18 +203,21 @@ export default function NavBar() {
         setTransparentLogoUrl(null);
       }
 
-      const tabTitle = v.tab_title || v.site_name;
-      if (tabTitle) document.title = tabTitle;
-      const faviconUrl = v.tab_favicon_url || v.logo_url;
-      if (faviconUrl) {
-        const existing = document.querySelector("link[rel='icon']") as HTMLLinkElement | null;
-        if (existing) {
-          existing.href = faviconUrl;
-        } else {
-          const link = document.createElement('link');
-          link.rel = 'icon';
-          link.href = faviconUrl;
-          document.head.appendChild(link);
+      // Live update document title and favicon (useful for instant changes in settings page)
+      if (typeof window !== "undefined") {
+        const tabTitle = v.tab_title || v.site_name;
+        if (tabTitle) document.title = tabTitle;
+        const faviconUrl = v.tab_favicon_url || v.logo_url;
+        if (faviconUrl) {
+          const existing = document.querySelector("link[rel='icon']") as HTMLLinkElement | null;
+          if (existing) {
+            existing.href = faviconUrl;
+          } else {
+            const link = document.createElement('link');
+            link.rel = 'icon';
+            link.href = faviconUrl;
+            document.head.appendChild(link);
+          }
         }
       }
     };

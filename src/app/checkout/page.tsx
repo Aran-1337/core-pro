@@ -165,7 +165,6 @@ export default function CheckoutPage() {
 
               <div className="mt-8 pt-6 border-t border-white/10 space-y-3">
                 <div className="flex justify-between text-on-surface-variant">
-                <div className="flex justify-between text-on-surface-variant">
                   <span>المجموع الفرعي</span>
                   <span className="font-code-sm">{totalPrice} EGP</span>
                 </div>
@@ -194,7 +193,6 @@ export default function CheckoutPage() {
               <div className="space-y-6">
                 {/* Wallet Status */}
                 <div className="p-6 rounded-xl bg-surface-container-lowest border border-white/5 space-y-4">
-                  <div className="flex justify-between items-center">
                   <div className="flex justify-between items-center">
                     <span className="text-on-surface-variant">الرصيد المتاح</span>
                     <span className="font-code-sm text-secondary text-lg">{user?.balance || 0} EGP</span>

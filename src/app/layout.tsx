@@ -19,10 +19,32 @@ const jetbrainsMono = JetBrains_Mono({
   variable: "--font-jetbrains-mono",
 });
 
-export const metadata: Metadata = {
-  title: "CORE",
-  description: "منصة المبرمج المصري",
-};
+import { createClient } from "@/utils/supabase/server";
+
+export async function generateMetadata(): Promise<Metadata> {
+  let title = "CORE";
+  let faviconUrl = "/favicon.ico";
+
+  try {
+    const supabase = await createClient();
+    const { data } = await supabase.from('site_settings').select('value').eq('key', 'system_settings').single();
+    if (data?.value) {
+      const v = data.value as any;
+      title = v.tab_title || v.site_name || "CORE";
+      faviconUrl = v.tab_favicon_url || v.logo_url || "/favicon.ico";
+    }
+  } catch (e) {
+    // Fallback if DB is not ready during build
+  }
+
+  return {
+    title,
+    description: "منصة المبرمج المصري",
+    icons: {
+      icon: faviconUrl,
+    }
+  };
+}
 
 export default function RootLayout({
   children,
