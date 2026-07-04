@@ -6,7 +6,7 @@ import { createClient } from "@/utils/supabase/client";
 
 export default function AdminSettingsPage() {
   const [activeTab, setActiveTab] = useState<'profile' | 'payments' | 'system' | 'security' | 'pages'>('profile');
-  const [adminProfile, setAdminProfile] = useState({ name: '', title: '', bio: '', avatar_url: '', facebook: '', youtube: '', phone: '' });
+  const [adminProfile, setAdminProfile] = useState({ id: '', name: '', title: '', bio: '', avatar_url: '', facebook: '', youtube: '', phone: '' });
   
   // Pages State
   const [pageContact, setPageContact] = useState('');
@@ -59,16 +59,19 @@ export default function AdminSettingsPage() {
 
   useEffect(() => {
     const fetchSettings = async () => {
+      const { data: { user: authUser } } = await supabase.auth.getUser();
+      const currentId = authUser?.id || '';
+
       // Fetch Profile
       const { data: profileData } = await supabase.from('site_settings').select('value').eq('key', 'instructor_profile').single();
       if (profileData && profileData.value) {
-        setAdminProfile((prev) => ({ ...prev, ...profileData.value }));
+        setAdminProfile((prev) => ({ ...prev, ...profileData.value, id: currentId }));
       } else {
-        const { data: { user } } = await supabase.auth.getUser();
-        if (user) {
-          const { data: userData } = await supabase.from('users').select('full_name, phone, bio').eq('id', user.id).single();
+        if (authUser) {
+          const { data: userData } = await supabase.from('users').select('full_name, phone, bio').eq('id', authUser.id).single();
           if (userData) {
              setAdminProfile({ 
+               id: currentId,
                name: userData.full_name || '', 
                title: 'المحاضر', 
                bio: userData.bio || '', 
