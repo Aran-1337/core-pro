@@ -32,6 +32,8 @@ export default function AdminDashboardPage() {
   const [totalCourses, setTotalCourses] = useState(0);
   const [totalBooksSold, setTotalBooksSold] = useState(0);
   const [totalEnrollments, setTotalEnrollments] = useState(0);
+  const [studentsGrowth, setStudentsGrowth] = useState(0);
+  const [revenueGrowth, setRevenueGrowth] = useState(0);
   
   const [upcomingSessions, setUpcomingSessions] = useState<LiveSession[]>([]);
   const [isSessionLive, setIsSessionLive] = useState(false);
@@ -76,13 +78,55 @@ export default function AdminDashboardPage() {
         const { count: enrollmentsCount } = await supabase.from('enrollments').select('*', { count: 'exact', head: true });
         setTotalEnrollments(enrollmentsCount || 0);
 
+        // Fetch students growth rate
+        const date30DaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString();
+        const date60DaysAgo = new Date(Date.now() - 60 * 24 * 60 * 60 * 1000).toISOString();
+
+        const { count: currentMonthStudents } = await supabase
+          .from('users')
+          .select('*', { count: 'exact', head: true })
+          .eq('role', 'STUDENT')
+          .eq('status', 'APPROVED')
+          .gte('created_at', date30DaysAgo);
+
+        const { count: prevMonthStudents } = await supabase
+          .from('users')
+          .select('*', { count: 'exact', head: true })
+          .eq('role', 'STUDENT')
+          .eq('status', 'APPROVED')
+          .gte('created_at', date60DaysAgo)
+          .lt('created_at', date30DaysAgo);
+
+        const sPrev = prevMonthStudents || 0;
+        const sCurr = currentMonthStudents || 0;
+        const sGrowth = sPrev === 0 ? (sCurr > 0 ? 100 : 0) : Math.round(((sCurr - sPrev) / sPrev) * 100);
+        setStudentsGrowth(sGrowth);
+
         const { data: approvedWallets } = await supabase.from('wallet_requests').select('amount, created_at').eq('status', 'APPROVED');
         if (approvedWallets) {
           const rev = approvedWallets.reduce((acc, curr) => acc + (curr.amount || 0), 0);
           setTotalRevenue(rev);
 
-          // Calculate Dynamic Chart Data
+          // Calculate Dynamic Chart Data & Revenue Growth
           const now = new Date();
+          const date30Ms = Date.now() - 30 * 24 * 60 * 60 * 1000;
+          const date60Ms = Date.now() - 60 * 24 * 60 * 60 * 1000;
+
+          let currentMonthRevenue = 0;
+          let prevMonthRevenue = 0;
+
+          approvedWallets.forEach(req => {
+            const reqTime = new Date(req.created_at).getTime();
+            if (reqTime >= date30Ms) {
+              currentMonthRevenue += Number(req.amount || 0);
+            } else if (reqTime >= date60Ms && reqTime < date30Ms) {
+              prevMonthRevenue += Number(req.amount || 0);
+            }
+          });
+
+          const rPrev = prevMonthRevenue || 0;
+          const rGrowth = rPrev === 0 ? (currentMonthRevenue > 0 ? 100 : 0) : Math.round(((currentMonthRevenue - rPrev) / rPrev) * 100);
+          setRevenueGrowth(rGrowth);
           
           // Data for 90 days (Last 6 months)
           const monthsData: any[] = [];
@@ -164,9 +208,9 @@ export default function AdminDashboardPage() {
             <div className="p-2 bg-primary/10 rounded-lg">
               <span className="material-symbols-outlined text-primary">groups</span>
             </div>
-            <span className="text-secondary text-xs font-bold flex items-center gap-1">
-              <span className="material-symbols-outlined text-xs">trending_up</span>
-              +١٢٪
+            <span className={`text-xs font-bold flex items-center gap-1 ${studentsGrowth >= 0 ? 'text-secondary' : 'text-error'}`}>
+              <span className="material-symbols-outlined text-xs">{studentsGrowth >= 0 ? 'trending_up' : 'trending_down'}</span>
+              {studentsGrowth >= 0 ? `+${studentsGrowth}` : studentsGrowth}%
             </span>
           </div>
           <div>
@@ -181,9 +225,9 @@ export default function AdminDashboardPage() {
             <div className="p-2 bg-primary-container/20 rounded-lg">
               <span className="material-symbols-outlined text-primary-container">payments</span>
             </div>
-            <span className="text-secondary text-xs font-bold flex items-center gap-1">
-              <span className="material-symbols-outlined text-xs">trending_up</span>
-              +٨٪
+            <span className={`text-xs font-bold flex items-center gap-1 ${revenueGrowth >= 0 ? 'text-secondary' : 'text-error'}`}>
+              <span className="material-symbols-outlined text-xs">{revenueGrowth >= 0 ? 'trending_up' : 'trending_down'}</span>
+              {revenueGrowth >= 0 ? `+${revenueGrowth}` : revenueGrowth}%
             </span>
           </div>
           <div>
