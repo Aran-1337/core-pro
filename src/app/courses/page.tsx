@@ -71,7 +71,7 @@ export default function CoursesPage() {
                 <div className="absolute top-4 right-4 px-3 py-1 rounded backdrop-blur-md border font-code-sm text-code-sm z-10 bg-primary-container/20 border-primary/30 text-primary">
                   كورس
                 </div>
-                {course.original_price > course.price && (
+                {course.original_price !== undefined && course.original_price > course.price && (
                   <div className="absolute top-4 left-4 px-2 py-1 rounded backdrop-blur-md border font-bold text-xs z-10 bg-error/20 border-error/30 text-error">
                     خصم {Math.round(((course.original_price - course.price) / course.original_price) * 100)}%
                   </div>
@@ -85,7 +85,7 @@ export default function CoursesPage() {
                 <div className="mt-auto flex items-center justify-between">
                   <div className="flex flex-col">
                     <span className="font-code-sm text-lg font-bold text-primary">{course.price} EGP</span>
-                    {course.original_price > course.price && (
+                    {course.original_price !== undefined && course.original_price > course.price && (
                       <span className="font-code-sm text-xs text-on-surface-variant line-through">{course.original_price} EGP</span>
                     )}
                   </div>
