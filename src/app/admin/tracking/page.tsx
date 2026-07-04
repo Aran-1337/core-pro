@@ -55,7 +55,7 @@ export default function TrackingPage() {
     if (!selectedUser) return;
     const currentBlocked = Array.isArray(selectedUser.blocked_ips) ? selectedUser.blocked_ips : [];
     
-    const newBlocked = currentBlocked.filter(blockedIp => blockedIp !== ip);
+    const newBlocked = currentBlocked.filter((blockedIp: string) => blockedIp !== ip);
     await supabase.from('users').update({ blocked_ips: newBlocked }).eq('id', selectedUser.id);
     
     // Update local state
