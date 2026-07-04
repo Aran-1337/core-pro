@@ -46,10 +46,10 @@ export default function LandingPage() {
                 </div>
               </div>
               <div className="font-code-sm space-y-2 text-primary/80" dir="ltr">
-                <p className="text-secondary text-right" dir="rtl"># نرحب بك في ثانوية المبرمج</p>
+                <p className="text-secondary text-right" dir="rtl"># نرحب بك في procode</p>
                 <p><span className="text-on-tertiary-container">class</span> <span className="text-primary-container">EgyptianStudent</span>:</p>
                 <p className="ml-4"> <span className="text-on-tertiary-container">def</span> <span className="text-primary-container">__init__</span>(self):</p>
-                <p className="ml-8">self.level = <span className="text-secondary-container">"Thanaweya_Amma"</span></p>
+                <p className="ml-8">self.level = <span className="text-secondary-container">"pro code"</span></p>
                 <p className="ml-8">self.skill = <span className="text-secondary-container">"AI_Mastery"</span></p>
                 <p className="ml-4"> <span className="text-on-tertiary-container">def</span> <span className="text-primary-container">solve_future</span>(self):</p>
                 <p className="ml-8"> <span className="text-on-tertiary-container">return</span> <span className="text-secondary-container">"Success Loading..."</span></p>
@@ -71,7 +71,7 @@ export default function LandingPage() {
       <section className="py-section-gap bg-surface-container-low">
         <div className="container mx-auto px-container-margin">
           <div className="text-center mb-16">
-            <h2 className="font-display-lg text-display-lg-mobile md:text-display-lg text-on-surface mb-4">لماذا تختار ثانوية المبرمج؟</h2>
+            <h2 className="font-display-lg text-display-lg-mobile md:text-display-lg text-on-surface mb-4">لماذا تختار procode؟</h2>
             <div className="w-24 h-1 bg-primary mx-auto rounded-full"></div>
           </div>
           
